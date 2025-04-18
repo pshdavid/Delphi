@@ -15,6 +15,7 @@
 # 디버그/릴리스 출력 폴더
 /Debug*/
 /Release*/
+/Android64/
 
 # 프로젝트 옵션 백업
 *.dproj.local
