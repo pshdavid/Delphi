@@ -1,0 +1,329 @@
+unit Unit10_BoardMM;
+
+interface
+
+uses
+  System.SysUtils, System.Types, System.UITypes, System.Classes, System.Variants,
+  FMX.Types, FMX.Controls, FMX.Forms, FMX.Graphics, FMX.Dialogs, FMX.ScrollBox, FMX.Objects,
+  FMX.Memo, FMX.Controls.Presentation, FMX.StdCtrls, Winsoft.Android.UsbSer,
+  Androidapi.JNIBridge, Winsoft.Android.Usb, FMX.ListBox, FMX.Memo.Types, FMX.Platform,
+  Androidapi.JNI, Androidapi.JNI.Java.Net, Androidapi.JNI.JavaTypes, Androidapi.Helpers,
+  Androidapi.JNI.App, Androidapi.JNI.Os, FMX.Helpers.Android, FMX.Edit;
+
+type
+  TForm10 = class(TForm)
+    SensorValueEdit0: TEdit;
+    SensorValueEdit9: TEdit;
+    SensorValueEdit10: TEdit;
+    SensorValueEdit11: TEdit;
+    SensorValueEdit12: TEdit;
+    SensorValueEdit13: TEdit;
+    SensorValueEdit14: TEdit;
+    SensorValueEdit15: TEdit;
+    SensorValueEdit1: TEdit;
+    SensorValueEdit2: TEdit;
+    SensorValueEdit3: TEdit;
+    SensorValueEdit4: TEdit;
+    SensorValueEdit5: TEdit;
+    SensorValueEdit6: TEdit;
+    SensorValueEdit7: TEdit;
+    SensorValueEdit8: TEdit;
+    Label10: TLabel;
+    Label11: TLabel;
+    Label12: TLabel;
+    Label13: TLabel;
+    Label14: TLabel;
+    Label15: TLabel;
+    Label16: TLabel;
+    Label17: TLabel;
+    Label18: TLabel;
+    Label19: TLabel;
+    Label2: TLabel;
+    Label3: TLabel;
+    Label4: TLabel;
+    Label5: TLabel;
+    Label6: TLabel;
+    Label7: TLabel;
+    Label8: TLabel;
+    Label9: TLabel;
+    Rec1: TRectangle;
+    Rec2: TRectangle;
+    btn_back: TRectangle;
+    btn_home: TRectangle;
+    StatusLabel: TLabel;
+    DateTimeLabel: TLabel;
+    Btn_SVRead: TRectangle;
+    Label1: TLabel;
+    BoardNumLabel: TLabel;
+    Label20: TLabel;
+    DataReadTimer: TTimer;
+    procedure btn_backClick(Sender: TObject);
+    procedure btn_homeClick(Sender: TObject);
+    procedure Btn_SVReadClick(Sender: TObject);
+    procedure FormShow(Sender: TObject);
+
+    procedure ResizedRec(ARectangle : TRectangle);
+    procedure ResizedEdit(AEdit : TEdit);
+    procedure ResizedLabel(ALabel : TLabel);
+    procedure FormCreate(Sender: TObject);
+    procedure SensorValueEdit0ApplyStyleLookup(Sender: TObject);
+    procedure SensorValueEdit1ApplyStyleLookup(Sender: TObject);
+    procedure SensorValueEdit2ApplyStyleLookup(Sender: TObject);
+    procedure SensorValueEdit3ApplyStyleLookup(Sender: TObject);
+    procedure SensorValueEdit4ApplyStyleLookup(Sender: TObject);
+    procedure SensorValueEdit5ApplyStyleLookup(Sender: TObject);
+    procedure SensorValueEdit6ApplyStyleLookup(Sender: TObject);
+    procedure SensorValueEdit7ApplyStyleLookup(Sender: TObject);
+    procedure SensorValueEdit8ApplyStyleLookup(Sender: TObject);
+    procedure SensorValueEdit9ApplyStyleLookup(Sender: TObject);
+    procedure SensorValueEdit10ApplyStyleLookup(Sender: TObject);
+    procedure SensorValueEdit11ApplyStyleLookup(Sender: TObject);
+    procedure SensorValueEdit12ApplyStyleLookup(Sender: TObject);
+    procedure SensorValueEdit13ApplyStyleLookup(Sender: TObject);
+    procedure SensorValueEdit14ApplyStyleLookup(Sender: TObject);
+    procedure SensorValueEdit15ApplyStyleLookup(Sender: TObject);
+    procedure DataReadTimerTimer(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  Form10: TForm10;
+
+implementation
+
+{$R *.fmx}
+
+uses Unit1_Login, Unit2_Main, Unit9_Board0, Handler;
+
+procedure TForm10.btn_backClick(Sender: TObject);
+begin
+  Form10.Close;
+  Form9.Show;
+end;
+
+procedure TForm10.btn_homeClick(Sender: TObject);
+begin
+  Form10.Close;
+  Form2.Show;
+end;
+
+procedure TForm10.Btn_SVReadClick(Sender: TObject);
+var
+  sTR1 : String;
+begin
+  try
+    UsbDevices := UsbSerial.UsbDevices;
+    const Device = UsbDevices[0];
+
+    if not UsbSerial.IsSupported(Device) then
+      raise Exception.Create('Unsupported device');
+
+    if not UsbSerial.HasPermission(Device) then
+      begin
+        UsbSerial.RequestPermission(Device);
+        Exit;
+      end;
+
+    UsbSerial.Connect(Device);
+  except
+    ShowMessage('연결된 USB 가 없습니다...');
+    exit;
+  end;
+
+  var cmd : String;
+  var data : TArray<Byte>;
+
+  UsbSerial.Open(TRUE);
+  UsbSerial.BaudRate := 115200;
+  UsbSerial.Parity := TParity.None;
+  UsbSerial.FlowControl := TFlowControl.Off;
+  UsbSerial.DataBits := TDataBits._8;
+  UsbSerial.StopBits := TStopBits._1;
+
+  CaseNum := 17;
+  sTR1 := SensorBoardNum;
+
+  cmd := '{"cmd":"r","s_bd":"'+sTR1+'","type":"a_val"}';
+  data := TEncoding.UTF8.GetBytes(cmd);
+  UsbSerial.Write(data, 0);
+  Form1.AppendText('SEND : ' + cmd);
+
+  DataReadTimer.Enabled := TRUE;
+end;
+
+procedure TForm10.DataReadTimerTimer(Sender: TObject);
+var
+  sTR1 : String;
+begin
+  var Buffer: TArray<Byte>;
+
+  SetLength(Buffer, 1000);
+  const Size = UsbSerial.Read(Buffer, 1000);
+
+  if Size >= 1 then
+    begin
+      SetLength(Buffer, Size);
+      sTR1 := TEncoding.UTF8.GetString(Buffer);
+
+      //ReadString := ReadString + sTR1;
+      Form1.AppendText('RECV : ' + sTR1);
+      Form1.AnalyzingMessage(sTR1);
+      DataReadTimer.Enabled := FALSE;
+    end;
+end;
+
+procedure TForm10.FormCreate(Sender: TObject);
+var
+  i: Integer;
+  aLabel: TLabel;
+  aEdit : TEdit;
+begin
+  ScaleWidth := self.ClientWidth  /  411;
+  ScaleHeight := self.ClientHeight  / 765;
+
+  for i := 1 to 20 do
+  begin
+    aLabel := TLabel(FindComponent('Label' + IntToStr(i)));
+    if Assigned(aLabel) then ResizedLabel(aLabel);
+  end;
+
+  for i := 0 to 15 do
+  begin
+    aEdit := TEdit(FindComponent('SensorValueEdit' + IntToStr(i)));
+    if Assigned(aEdit) then ResizedEdit(aEdit);
+  end;
+
+  ResizedLabel(BoardNumLabel);
+  ResizedLabel(DateTimeLabel);
+  ResizedLabel(StatusLabel);
+  ResizedRec(btn_back);
+  ResizedRec(btn_home);
+  ResizedRec(Btn_SVRead);
+end;
+
+procedure TForm10.FormShow(Sender: TObject);
+begin
+  SensorValueEdit0.Text := '';
+  SensorValueEdit1.Text := '';
+  SensorValueEdit2.Text := '';
+  SensorValueEdit3.Text := '';
+  SensorValueEdit4.Text := '';
+  SensorValueEdit5.Text := '';
+  SensorValueEdit6.Text := '';
+  SensorValueEdit7.Text := '';
+  SensorValueEdit8.Text := '';
+  SensorValueEdit9.Text := '';
+  SensorValueEdit10.Text := '';
+  SensorValueEdit11.Text := '';
+  SensorValueEdit12.Text := '';
+  SensorValueEdit13.Text := '';
+  SensorValueEdit14.Text := '';
+  SensorValueEdit15.Text := '';
+end;
+
+procedure TForm10.ResizedLabel(ALabel : TLabel);
+begin
+  ALabel.Width := ALabel.Width * ScaleWidth;
+  ALabel.Height := ALabel.Height * ScaleHeight;
+  ALabel.Position.X := ALabel.Position.X * ScaleWidth;
+  ALabel.Position.Y := ALabel.Position.Y * ScaleHeight;
+end;
+procedure TForm10.ResizedEdit(AEdit : TEdit);
+begin
+  AEdit.Width := AEdit.Width * ScaleWidth;
+  AEdit.Height := AEdit.Height * ScaleHeight;
+  AEdit.Position.X := AEdit.Position.X * ScaleWidth;
+  AEdit.Position.Y := AEdit.Position.Y * ScaleHeight;
+end;
+procedure TForm10.ResizedRec(ARectangle : TRectangle);
+begin
+  ARectangle.Width := ARectangle.Width * ScaleWidth;
+  ARectangle.Height := ARectangle.Height * ScaleHeight;
+  ARectangle.Position.X := ARectangle.Position.X * ScaleWidth;
+  ARectangle.Position.Y := ARectangle.Position.Y * ScaleHeight;
+end;
+
+procedure TForm10.SensorValueEdit0ApplyStyleLookup(Sender: TObject);
+begin
+  EditSet(SensorValueEdit0);
+end;
+
+procedure TForm10.SensorValueEdit10ApplyStyleLookup(Sender: TObject);
+begin
+  EditSet(SensorValueEdit10);
+end;
+
+procedure TForm10.SensorValueEdit11ApplyStyleLookup(Sender: TObject);
+begin
+  EditSet(SensorValueEdit11);
+end;
+
+procedure TForm10.SensorValueEdit12ApplyStyleLookup(Sender: TObject);
+begin
+  EditSet(SensorValueEdit12);
+end;
+
+procedure TForm10.SensorValueEdit13ApplyStyleLookup(Sender: TObject);
+begin
+  EditSet(SensorValueEdit13);
+end;
+
+procedure TForm10.SensorValueEdit14ApplyStyleLookup(Sender: TObject);
+begin
+  EditSet(SensorValueEdit14);
+end;
+
+procedure TForm10.SensorValueEdit15ApplyStyleLookup(Sender: TObject);
+begin
+  EditSet(SensorValueEdit15);
+end;
+
+procedure TForm10.SensorValueEdit1ApplyStyleLookup(Sender: TObject);
+begin
+  EditSet(SensorValueEdit1);
+end;
+
+procedure TForm10.SensorValueEdit2ApplyStyleLookup(Sender: TObject);
+begin
+  EditSet(SensorValueEdit2);
+end;
+
+procedure TForm10.SensorValueEdit3ApplyStyleLookup(Sender: TObject);
+begin
+  EditSet(SensorValueEdit3);
+end;
+
+procedure TForm10.SensorValueEdit4ApplyStyleLookup(Sender: TObject);
+begin
+  EditSet(SensorValueEdit4);
+end;
+
+procedure TForm10.SensorValueEdit5ApplyStyleLookup(Sender: TObject);
+begin
+  EditSet(SensorValueEdit5);
+end;
+
+procedure TForm10.SensorValueEdit6ApplyStyleLookup(Sender: TObject);
+begin
+  EditSet(SensorValueEdit6);
+end;
+
+procedure TForm10.SensorValueEdit7ApplyStyleLookup(Sender: TObject);
+begin
+  EditSet(SensorValueEdit7);
+end;
+
+procedure TForm10.SensorValueEdit8ApplyStyleLookup(Sender: TObject);
+begin
+  EditSet(SensorValueEdit8);
+end;
+
+procedure TForm10.SensorValueEdit9ApplyStyleLookup(Sender: TObject);
+begin
+  EditSet(SensorValueEdit9);
+end;
+
+end.
