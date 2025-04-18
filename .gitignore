@@ -1,0 +1,28 @@
+# Delphi 임시/빌드 파일
+*.dsk
+*.local
+*.identcache
+*.~*
+*.rsm
+*.dcuil
+*.dcu
+*.exe
+*.dll
+*.bpl
+*.tpj
+*.res
+
+# 디버그/릴리스 출력 폴더
+/Debug*/
+/Release*/
+
+# 프로젝트 옵션 백업
+*.dproj.local
+*.groupproj
+
+# 패키지 매니저
+/node_modules/
+
+# OS 자체 파일
+Thumbs.db
+.DS_Store
