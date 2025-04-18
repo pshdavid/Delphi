@@ -1,0 +1,5 @@
+# 모든 텍스트 파일을 자동 인식하고 저장소엔 LF로 저장
+* text=auto
+
+# XML 파일은 항상 LF
+*.xml text eol=lf
