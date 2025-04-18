@@ -1,0 +1,161 @@
+unit Unit6_Server;
+
+interface
+
+uses
+  System.SysUtils, System.Types, System.UITypes, System.Classes, System.Variants,
+  FMX.Types, FMX.Controls, FMX.Forms, FMX.Graphics, FMX.Dialogs, FMX.StdCtrls,
+  FMX.Controls.Presentation, FMX.Edit, FMX.Objects;
+
+type
+  TForm6 = class(TForm)
+    ServerPasswordEdit: TEdit;
+    Label2: TLabel;
+    Label3: TLabel;
+    Label4: TLabel;
+    Rec1: TRectangle;
+    Rec2: TRectangle;
+    ServerIPEdit: TEdit;
+    ServerPortEdit: TEdit;
+    btn_back: TRectangle;
+    Label7: TLabel;
+    btn_home: TRectangle;
+    Label1: TLabel;
+    Btn_SVRead: TRectangle;
+    Btn_SVSave: TRectangle;
+    procedure btn_backClick(Sender: TObject);
+    procedure btn_homeClick(Sender: TObject);
+    procedure FormShow(Sender: TObject);
+    procedure Btn_SVReadClick(Sender: TObject);
+    procedure Btn_SVSaveClick(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
+
+    procedure ResizedRec(ARectangle : TRectangle);
+    procedure ResizedEdit(AEdit : TEdit);
+    procedure ResizedLabel(ALabel : TLabel);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  Form6: TForm6;
+
+implementation
+
+{$R *.fmx}
+
+uses Unit1_Login, Unit2_Main, Unit3_System;
+
+procedure TForm6.btn_backClick(Sender: TObject);
+begin
+  Form3.Show;
+end;
+
+procedure TForm6.btn_homeClick(Sender: TObject);
+begin
+  Form2.Show;
+end;
+
+procedure TForm6.Btn_SVReadClick(Sender: TObject);
+begin
+  if not (ServerPasswordEdit.Text = '1111111111') then
+    begin
+      ShowMessage('비밀번호가 틀립니다...');
+      exit;
+    end;
+
+  var cmd : String;
+  var data : TArray<Byte>;
+
+  CaseNum := 6;
+  cmd := '{"cmd":"r","type":"esp_svr"}';      // Server Read
+  data := TEncoding.UTF8.GetBytes(cmd);
+  UsbSerial.Write(data, 1000);
+  Form1.AppendText('SEND : ' + cmd);
+end;
+
+procedure TForm6.Btn_SVSaveClick(Sender: TObject);
+var
+  sTR2, sTR3, sTR4 : String;
+begin
+  if not (ServerPasswordEdit.Text = '1111111111') then
+    begin
+      ShowMessage('비밀번호가 틀립니다...');
+      exit;
+    end;
+
+  if (ServerIPEdit.Text = '') or (ServerPortEdit.Text = '') then
+    begin
+      ShowMessage('IP, Port를 입력하세요.');
+      exit;
+    end;
+
+  var cmd : String;
+  var data : TArray<Byte>;
+
+  CaseNum := 7;
+  sTR2 := ServerPasswordEdit.Text;
+  sTR3 := ServerIPEdit.Text;
+  sTR4 := ServerPortEdit.Text;
+
+  cmd := '{"cmd":"w","svr_ip":"'+sTR3+'","svr_port":"'+sTR4+'","pw":"'+sTR2+'"}';
+  data := TEncoding.UTF8.GetBytes(cmd);
+  UsbSerial.Write(data, 1000);
+  Form1.AppendText('SEND : ' + cmd);
+end;
+
+procedure TForm6.FormCreate(Sender: TObject);
+begin
+  ScaleWidth := self.ClientWidth  /  411;
+  ScaleHeight := self.ClientHeight  / 765;
+
+  ResizedLabel(Label1);
+  ResizedLabel(Label2);
+  ResizedLabel(Label3);
+  ResizedLabel(Label4);
+  ResizedLabel(Label7);
+
+  ResizedRec(Rec1);
+  ResizedRec(Rec2);
+  ResizedRec(btn_back);
+  ResizedRec(btn_home);
+  ResizedRec(Btn_SVRead);
+  ResizedRec(Btn_SVSave);
+
+  ResizedEdit(ServerIPEdit);
+  ResizedEdit(ServerPasswordEdit);
+  ResizedEdit(ServerPortEdit);
+end;
+
+procedure TForm6.FormShow(Sender: TObject);
+begin
+  ServerPasswordEdit.Text := '1111111111';
+  ServerIPEdit.Text := '';
+  ServerPortEdit.Text := '';
+end;
+
+procedure TForm6.ResizedLabel(ALabel : TLabel);
+begin
+  ALabel.Width := ALabel.Width * ScaleWidth;
+  ALabel.Height := ALabel.Height * ScaleHeight;
+  ALabel.Position.X := ALabel.Position.X * ScaleWidth;
+  ALabel.Position.Y := ALabel.Position.Y * ScaleHeight;
+end;
+procedure TForm6.ResizedEdit(AEdit : TEdit);
+begin
+  AEdit.Width := AEdit.Width * ScaleWidth;
+  AEdit.Height := AEdit.Height * ScaleHeight;
+  AEdit.Position.X := AEdit.Position.X * ScaleWidth;
+  AEdit.Position.Y := AEdit.Position.Y * ScaleHeight;
+end;
+procedure TForm6.ResizedRec(ARectangle : TRectangle);
+begin
+  ARectangle.Width := ARectangle.Width * ScaleWidth;
+  ARectangle.Height := ARectangle.Height * ScaleHeight;
+  ARectangle.Position.X := ARectangle.Position.X * ScaleWidth;
+  ARectangle.Position.Y := ARectangle.Position.Y * ScaleHeight;
+end;
+
+end.

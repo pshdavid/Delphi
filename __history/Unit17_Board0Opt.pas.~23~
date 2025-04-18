@@ -1,0 +1,234 @@
+unit Unit17_Board0Opt;
+
+interface
+
+uses
+  System.SysUtils, System.Types, System.UITypes, System.Classes, System.Variants,
+  FMX.Types, FMX.Controls, FMX.Forms, FMX.Graphics, FMX.Dialogs, FMX.Objects,
+  FMX.StdCtrls, FMX.Controls.Presentation, FMX.Edit, FMX.ListBox;
+
+type
+  TForm17 = class(TForm)
+    a_ch: TComboBox;
+    SensorCodeEdit: TEdit;
+    SensorInstallNoEdit: TEdit;
+    SensorCodeCBox: TComboBox;
+    SensorStatusCBox: TComboBox;
+    SensorItemCBox: TComboBox;
+    btn_read: TRectangle;
+    btn_save: TRectangle;
+    SensorPWEdit: TEdit;
+    ChimneyProEdit4: TEdit;
+    ChimneyProEdit1: TEdit;
+    ChimneyProEdit2: TEdit;
+    ChimneyProEdit3: TEdit;
+    Label10: TLabel;
+    Label11: TLabel;
+    Label12: TLabel;
+    Label13: TLabel;
+    Label14: TLabel;
+    Label15: TLabel;
+    Label16: TLabel;
+    Label17: TLabel;
+    Label18: TLabel;
+    Label19: TLabel;
+    Label20: TLabel;
+    Label21: TLabel;
+    Label3: TLabel;
+    Label4: TLabel;
+    Label5: TLabel;
+    Label6: TLabel;
+    Label7: TLabel;
+    Label8: TLabel;
+    Label9: TLabel;
+    Line1: TLine;
+    Rec1: TRectangle;
+    Rec2: TRectangle;
+    Rectangle10: TRectangle;
+    Rectangle11: TRectangle;
+    Rectangle12: TRectangle;
+    Rectangle13: TRectangle;
+    Rectangle6: TRectangle;
+    Rectangle7: TRectangle;
+    Rectangle8: TRectangle;
+    Rectangle9: TRectangle;
+    ChimneyProCBox1: TComboBox;
+    ChimneyProCBox2: TComboBox;
+    ChimneyProCBox3: TComboBox;
+    ChimneyProCBox4: TComboBox;
+    ChimneyUseCBox1: TComboBox;
+    ChimneyUseCBox2: TComboBox;
+    ChimneyUseCBox3: TComboBox;
+    ChimneyUseCBox4: TComboBox;
+    StyleBook1: TStyleBook;
+    btn_back: TRectangle;
+    Label1: TLabel;
+    btn_home: TRectangle;
+    SensorMinEdit: TEdit;
+    SensorRefEdit: TEdit;
+    SensorMaxEdit: TEdit;
+    SensorRangeEdit: TEdit;
+    BoardNumLabel: TLabel;
+    procedure btn_backClick(Sender: TObject);
+    procedure btn_homeClick(Sender: TObject);
+    procedure btn_readClick(Sender: TObject);
+    procedure btn_saveClick(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  Form17: TForm17;
+
+implementation
+
+{$R *.fmx}
+
+uses Unit1_Login, Unit2_Main, Unit9_Board0;
+
+procedure TForm17.btn_backClick(Sender: TObject);
+begin
+  Form17.Close;
+  Form9.Show;
+end;
+
+procedure TForm17.btn_homeClick(Sender: TObject);
+begin
+  Form17.Close;
+  Form2.Show;
+end;
+
+
+procedure TForm17.btn_readClick(Sender: TObject);
+var
+  sTR1, sTR2 : String;
+begin
+  if a_ch.ItemIndex = -1 then
+    begin
+      ShowMessage('채널을 선택하세요...');
+      exit;
+    end;
+
+  var cmd : String;
+  var data : TArray<Byte>;
+
+  sTR1 := SensorBoardNum;
+  sTR2 := (a_ch.ItemIndex).ToString;
+
+  CaseNum := 14;
+  cmd := '{"cmd":"r","s_bd":"' + sTR1 + '","type":"adc' + sTR2 + '"}';
+  data := TEncoding.UTF8.GetBytes(cmd);
+  UsbSerial.Write(data, 1000);
+  Form1.AppendText('SEND : ' + cmd);
+end;
+
+procedure TForm17.btn_saveClick(Sender: TObject);
+var
+  sTR1, sTR2, sTR3, sTR4, sTR5, sTR6, sTR7, sTR8, sTR9, sTR10, sTR11, sTR12, sTR13,
+  sTR14, sTR15, sTR16, sTR17, sTR18, sTR19: String;
+begin
+  if a_ch.ItemIndex = -1 then
+    begin
+      ShowMessage('채널을 선택하세요...');
+      exit;
+    end;
+
+  if (SensorCodeCBox.ItemIndex = 1) or (SensorCodeCBox.ItemIndex = 2) or (SensorCodeCBox.ItemIndex = 3) then
+    begin
+      if SensorCodeEdit.Text = '' then
+        begin
+          ShowMessage('코드값을 입력하세요...');
+          exit;
+        end;
+
+      if SensorInstallNoEdit.Text = '' then
+        begin
+          ShowMessage('시설번호를 입력하세요...');
+          exit;
+        end;
+    end;
+
+  if not (SensorPWEdit.Text = '1111111111') then
+    begin
+      ShowMessage('비밀번호가 틀립니다. 다시 입력하세요...');
+      exit;
+    end;
+
+  var cmd : String;
+  var data : TArray<Byte>;
+
+  sTR1 := SensorBoardNum;
+  sTR2 := (a_ch.ItemIndex).ToString;
+
+
+  if Form17.SensorItemCBox.ItemIndex = 0 then sTR1 := 'null';
+  if Form17.SensorItemCBox.ItemIndex = 1 then sTR1 := 'A';
+  if Form17.SensorItemCBox.ItemIndex = 2 then sTR1 := 'a';
+  if Form17.SensorItemCBox.ItemIndex = 3 then sTR1 := 'b';
+  if Form17.SensorItemCBox.ItemIndex = 4 then sTR1 := 'c';
+  if Form17.SensorItemCBox.ItemIndex = 5 then sTR1 := 'd';
+  if Form17.SensorItemCBox.ItemIndex = 6 then sTR1 := 'e';
+  if Form17.SensorItemCBox.ItemIndex = 7 then sTR1 := 'f';
+  if Form17.SensorItemCBox.ItemIndex = 8 then sTR1 := 'D';
+  if Form17.SensorItemCBox.ItemIndex = 9 then sTR1 := 'd';
+  if Form17.SensorItemCBox.ItemIndex = 10 then sTR1 := 'H';
+  if Form17.SensorItemCBox.ItemIndex = 11 then sTR1 := 'h';
+  if Form17.SensorItemCBox.ItemIndex = 12 then sTR1 := 'T';
+  if Form17.SensorItemCBox.ItemIndex = 13 then sTR1 := 't';
+
+  if Form17.SensorStatusCBox.ItemIndex = 2 then sTR2 := 'null';
+  if Form17.SensorStatusCBox.ItemIndex = 0 then sTR2 := 'use';
+  if Form17.SensorStatusCBox.ItemIndex = 1 then sTR2 := 'chk';
+
+  if Form17.SensorCodeCBox.ItemIndex = 0 then sTR3 := 'null';
+  if Form17.SensorCodeCBox.ItemIndex = 1 then sTR3 := 'E' + Form17.SensorCodeEdit.Text;
+  if Form17.SensorCodeCBox.ItemIndex = 2 then sTR3 := 'P' + Form17.SensorCodeEdit.Text;
+  if Form17.SensorCodeCBox.ItemIndex = 3 then sTR3 := 'F' + Form17.SensorCodeEdit.Text;
+
+  sTR4 := Form17.SensorInstallNoEdit.Text;
+  sTR5 := Form17.SensorMinEdit.Text;
+  sTR6 := Form17.SensorRefEdit.Text;
+  sTR7 := Form17.SensorMaxEdit.Text;
+  sTR8 := Form17.SensorRangeEdit.Text;
+
+  if Form17.ChimneyUseCBox1.ItemIndex = 0 then sTR9 := 'u';
+  if Form17.ChimneyUseCBox1.ItemIndex = 1 then sTR9 := 'n';
+  if Form17.ChimneyUseCBox2.ItemIndex = 0 then sTR10 := 'u';
+  if Form17.ChimneyUseCBox2.ItemIndex = 1 then sTR10 := 'n';
+  if Form17.ChimneyUseCBox3.ItemIndex = 0 then sTR11 := 'u';
+  if Form17.ChimneyUseCBox3.ItemIndex = 1 then sTR11 := 'n';
+  if Form17.ChimneyUseCBox4.ItemIndex = 0 then sTR12 := 'u';
+  if Form17.ChimneyUseCBox4.ItemIndex = 1 then sTR12 := 'n';
+
+  if Form17.ChimneyProCBox1.ItemIndex = 0 then sTR13 := 'N';
+  if Form17.ChimneyProCBox1.ItemIndex = 1 then sTR13 := 'P' + Form17.ChimneyProEdit1.Text;
+  if Form17.ChimneyProCBox1.ItemIndex = 2 then sTR13 := 'F' + Form17.ChimneyProEdit1.Text;
+;
+  if Form17.ChimneyProCBox2.ItemIndex = 0 then sTR14 := 'N';
+  if Form17.ChimneyProCBox2.ItemIndex = 1 then sTR14 := 'P' + Form17.ChimneyProEdit2.Text;
+  if Form17.ChimneyProCBox2.ItemIndex = 2 then sTR14 := 'F' + Form17.ChimneyProEdit2.Text;
+
+  if Form17.ChimneyProCBox3.ItemIndex = 0 then sTR15 := 'N';
+  if Form17.ChimneyProCBox3.ItemIndex = 1 then sTR15 := 'P' + Form17.ChimneyProEdit3.Text;
+  if Form17.ChimneyProCBox3.ItemIndex = 2 then sTR15 := 'F' + Form17.ChimneyProEdit3.Text;
+
+  if Form17.ChimneyProCBox4.ItemIndex = 0 then sTR16 := 'N';
+  if Form17.ChimneyProCBox4.ItemIndex = 1 then sTR16 := 'P' + Form17.ChimneyProEdit4.Text;
+  if Form17.ChimneyProCBox4.ItemIndex = 2 then sTR16 := 'F' + Form17.ChimneyProEdit4.Text;
+
+  sTR17 := SensorPWEdit.Text;
+  sTR18 := SensorBoardNum;
+  sTR19 := (a_ch.ItemIndex).ToString;
+
+  cmd := '{"cmd":"w","s_bd":"'+sTR18+'","a_ch":"'+sTR19+'","a_faci":"'+sTR3+'","ssc1":"'+sTR13+'","ssc2":"'+sTR14+'","ssc3":"'+
+         sTR15+'","ssc4":"'+sTR16+'","a_type":"'+sTR1+'","a_sts":"'+sTR2+'","a_min":"'+sTR5+'","a_ref":"'+sTR6+'","a_max":"'+
+         sTR7+'","a_opt":"'+sTR8+'","a_faciN":"'+sTR4+'","ssu1":"'+sTR9+'","ssu2":"'+sTR10+'","ssu3":"'+
+         sTR11+'","ssu4":"'+sTR12+'","pw":"'+sTR17+'"}';
+  data := TEncoding.UTF8.GetBytes(cmd);
+  UsbSerial.Write(data, 1000);
+  Form1.AppendText('SEND : ' + cmd);
+end;
+
+end.

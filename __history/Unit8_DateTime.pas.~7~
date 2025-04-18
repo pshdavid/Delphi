@@ -1,0 +1,100 @@
+unit Unit8_DateTime;
+
+interface
+
+uses
+  System.SysUtils, System.Types, System.UITypes, System.Classes, System.Variants,
+  FMX.Types, FMX.Controls, FMX.Forms, FMX.Graphics, FMX.Dialogs,
+  FMX.DateTimeCtrls, FMX.Objects, FMX.StdCtrls, FMX.Controls.Presentation,
+  FMX.Edit, FMX.EditBox, FMX.SpinBox;
+
+type
+  TForm8 = class(TForm)
+    DateEdit: TDateEdit;
+    ServerPasswordEdit: TEdit;
+    Label2: TLabel;
+    Label3: TLabel;
+    Label5: TLabel;
+    Label6: TLabel;
+    Label7: TLabel;
+    ServerDateEdit: TLabel;
+    ServerTimeEdit: TLabel;
+    Rec1: TRectangle;
+    Rec2: TRectangle;
+    Rectangle1: TRectangle;
+    Rectangle2: TRectangle;
+    Rectangle3: TRectangle;
+    Rectangle4: TRectangle;
+    btn_back: TRectangle;
+    Label1: TLabel;
+    btn_home: TRectangle;
+    Label10: TLabel;
+    Btn_SVRead: TRectangle;
+    Btn_SVSave: TRectangle;
+    SecondSpinBox: TSpinBox;
+    MinuteSpinBox: TSpinBox;
+    HourSpinBox: TSpinBox;
+    Label4: TLabel;
+    Label8: TLabel;
+    Label9: TLabel;
+    procedure btn_backClick(Sender: TObject);
+    procedure btn_homeClick(Sender: TObject);
+    procedure Btn_SVReadClick(Sender: TObject);
+    procedure FormShow(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  Form8: TForm8;
+
+implementation
+
+{$R *.fmx}
+
+uses Unit1_Login, Unit3_System, Unit2_Main;
+
+procedure TForm8.btn_backClick(Sender: TObject);
+begin
+  Form8.Close;
+  Form3.Show;
+end;
+
+procedure TForm8.btn_homeClick(Sender: TObject);
+begin
+  Form8.Close;
+  Form2.Show;
+end;
+
+procedure TForm8.Btn_SVReadClick(Sender: TObject);
+begin
+  if not (ServerPasswordEdit.Text = '1111111111') then
+    begin
+      ShowMessage('비밀번호가 틀립니다. 다시 입력하세요...');
+      exit;
+    end;
+
+  var cmd : String;
+  var data : TArray<Byte>;
+
+  CaseNum := 10;
+  cmd := '{"cmd":"r","type":"esp_dt"}';      // Chimney Read
+  data := TEncoding.UTF8.GetBytes(cmd);
+  UsbSerial.Write(data, 1000);
+  Form1.AppendText('SEND : ' + cmd);
+end;
+
+procedure TForm8.FormShow(Sender: TObject);
+begin
+  ServerPasswordEdit.Text := '1111111111';
+  HourSpinBox.Value := 0;
+  MinuteSpinBox.Value := 0;
+  SecondSpinBox.Value := 0;
+
+  ServerDateEdit.Text := '';
+  ServerTimeEdit.Text := '';
+end;
+
+end.

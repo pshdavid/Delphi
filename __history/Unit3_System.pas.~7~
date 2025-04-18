@@ -1,0 +1,65 @@
+unit Unit3_System;
+
+interface
+
+uses
+  System.SysUtils, System.Types, System.UITypes, System.Classes, System.Variants,
+  FMX.Types, FMX.Controls, FMX.Forms, FMX.Graphics, FMX.Dialogs, FMX.Objects,
+  FMX.Controls.Presentation, FMX.StdCtrls;
+
+type
+  TForm3 = class(TForm)
+    Rec1: TRectangle;
+    Btn_Gateway: TRectangle;
+    Btn_Network: TRectangle;
+    Btn_Server: TRectangle;
+    Btn_Code: TRectangle;
+    Btn_DateTime: TRectangle;
+    label1: TLabel;
+    Label2: TLabel;
+    lb_model: TLabel;
+    lb_version: TLabel;
+    Label3: TLabel;
+    btn_home: TRectangle;
+    procedure Btn_GatewayClick(Sender: TObject);
+    procedure Btn_NetworkClick(Sender: TObject);
+    procedure Btn_ServerClick(Sender: TObject);
+    procedure btn_homeClick(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  Form3: TForm3;
+
+implementation
+
+{$R *.fmx}
+
+uses Unit4_Gateway, Unit5_Network, Unit6_Server;
+
+procedure TForm3.Btn_GatewayClick(Sender: TObject);
+begin
+  Form3.Hide;
+  Form4.Show;
+end;
+
+procedure TForm3.btn_homeClick(Sender: TObject);
+begin
+  Form3.Close;
+  Form2.Show;
+end;
+
+procedure TForm3.Btn_NetworkClick(Sender: TObject);
+begin
+  Form5.Show;
+end;
+
+procedure TForm3.Btn_ServerClick(Sender: TObject);
+begin
+  Form6.Show;
+end;
+
+end.

@@ -1,0 +1,301 @@
+unit Unit10_Board1;
+
+interface
+
+uses
+  System.SysUtils, System.Types, System.UITypes, System.Classes, System.Variants,
+  FMX.Types, FMX.Controls, FMX.Forms, FMX.Graphics, FMX.Dialogs,
+  FMX.Controls.Presentation, FMX.StdCtrls, FMX.Objects;
+
+type
+  TForm10 = class(TForm)
+    btn_home: TRectangle;
+    cd1: TRectangle;
+    cd10: TRectangle;
+    cd11: TRectangle;
+    cd12: TRectangle;
+    cd13: TRectangle;
+    cd14: TRectangle;
+    cd15: TRectangle;
+    cd16: TRectangle;
+    cd2: TRectangle;
+    cd3: TRectangle;
+    cd4: TRectangle;
+    cd5: TRectangle;
+    cd6: TRectangle;
+    cd7: TRectangle;
+    cd8: TRectangle;
+    cd9: TRectangle;
+    ChimneyLabel1_0: TLabel;
+    ChimneyLabel1_1: TLabel;
+    ChimneyLabel1_10: TLabel;
+    ChimneyLabel1_11: TLabel;
+    ChimneyLabel1_12: TLabel;
+    ChimneyLabel1_13: TLabel;
+    ChimneyLabel1_14: TLabel;
+    ChimneyLabel1_15: TLabel;
+    ChimneyLabel1_2: TLabel;
+    ChimneyLabel1_3: TLabel;
+    ChimneyLabel1_4: TLabel;
+    ChimneyLabel1_5: TLabel;
+    ChimneyLabel1_6: TLabel;
+    ChimneyLabel1_7: TLabel;
+    ChimneyLabel1_8: TLabel;
+    ChimneyLabel1_9: TLabel;
+    cn1: TRectangle;
+    cn10: TRectangle;
+    cn11: TRectangle;
+    cn12: TRectangle;
+    cn13: TRectangle;
+    cn14: TRectangle;
+    cn15: TRectangle;
+    cn16: TRectangle;
+    cn2: TRectangle;
+    cn3: TRectangle;
+    cn4: TRectangle;
+    cn5: TRectangle;
+    cn6: TRectangle;
+    cn7: TRectangle;
+    cn8: TRectangle;
+    cn9: TRectangle;
+    CodeLabel1_0: TLabel;
+    CodeLabel1_1: TLabel;
+    CodeLabel1_10: TLabel;
+    CodeLabel1_11: TLabel;
+    CodeLabel1_12: TLabel;
+    CodeLabel1_13: TLabel;
+    CodeLabel1_14: TLabel;
+    CodeLabel1_15: TLabel;
+    CodeLabel1_2: TLabel;
+    CodeLabel1_3: TLabel;
+    CodeLabel1_4: TLabel;
+    CodeLabel1_5: TLabel;
+    CodeLabel1_6: TLabel;
+    CodeLabel1_7: TLabel;
+    CodeLabel1_8: TLabel;
+    CodeLabel1_9: TLabel;
+    Label2: TLabel;
+    no1: TRectangle;
+    Label7: TLabel;
+    no10: TRectangle;
+    Label17: TLabel;
+    no11: TRectangle;
+    Label18: TLabel;
+    no12: TRectangle;
+    Label19: TLabel;
+    no13: TRectangle;
+    Label20: TLabel;
+    no14: TRectangle;
+    Label21: TLabel;
+    no15: TRectangle;
+    Label22: TLabel;
+    no16: TRectangle;
+    Label23: TLabel;
+    no2: TRectangle;
+    Label9: TLabel;
+    no3: TRectangle;
+    Label10: TLabel;
+    no4: TRectangle;
+    Label11: TLabel;
+    no5: TRectangle;
+    Label12: TLabel;
+    no6: TRectangle;
+    Label13: TLabel;
+    no7: TRectangle;
+    Label14: TLabel;
+    no8: TRectangle;
+    Label15: TLabel;
+    no9: TRectangle;
+    Label16: TLabel;
+    Rec1: TRectangle;
+    Rec2: TRectangle;
+    Recchim: TRectangle;
+    Label8: TLabel;
+    Reccode: TRectangle;
+    Label5: TLabel;
+    Recno: TRectangle;
+    Label3: TLabel;
+    Recstatic: TRectangle;
+    Label6: TLabel;
+    Rectangle1: TRectangle;
+    Rectangle2: TRectangle;
+    Rectype: TRectangle;
+    Label4: TLabel;
+    st1: TRectangle;
+    st10: TRectangle;
+    st11: TRectangle;
+    st12: TRectangle;
+    st13: TRectangle;
+    st14: TRectangle;
+    st15: TRectangle;
+    st16: TRectangle;
+    st2: TRectangle;
+    st3: TRectangle;
+    st4: TRectangle;
+    st5: TRectangle;
+    st6: TRectangle;
+    st7: TRectangle;
+    st8: TRectangle;
+    st9: TRectangle;
+    StatusLabel1_0: TLabel;
+    StatusLabel1_1: TLabel;
+    StatusLabel1_10: TLabel;
+    StatusLabel1_11: TLabel;
+    StatusLabel1_12: TLabel;
+    StatusLabel1_13: TLabel;
+    StatusLabel1_14: TLabel;
+    StatusLabel1_15: TLabel;
+    StatusLabel1_2: TLabel;
+    StatusLabel1_3: TLabel;
+    StatusLabel1_4: TLabel;
+    StatusLabel1_5: TLabel;
+    StatusLabel1_6: TLabel;
+    StatusLabel1_7: TLabel;
+    StatusLabel1_8: TLabel;
+    StatusLabel1_9: TLabel;
+    ty1: TRectangle;
+    ty10: TRectangle;
+    ty11: TRectangle;
+    ty12: TRectangle;
+    ty13: TRectangle;
+    ty14: TRectangle;
+    ty15: TRectangle;
+    ty16: TRectangle;
+    ty2: TRectangle;
+    ty3: TRectangle;
+    ty4: TRectangle;
+    ty5: TRectangle;
+    ty6: TRectangle;
+    ty7: TRectangle;
+    ty8: TRectangle;
+    ty9: TRectangle;
+    ValueLabel1_0: TLabel;
+    ValueLabel1_1: TLabel;
+    ValueLabel1_10: TLabel;
+    ValueLabel1_11: TLabel;
+    ValueLabel1_12: TLabel;
+    ValueLabel1_13: TLabel;
+    ValueLabel1_14: TLabel;
+    ValueLabel1_15: TLabel;
+    ValueLabel1_2: TLabel;
+    ValueLabel1_3: TLabel;
+    ValueLabel1_4: TLabel;
+    ValueLabel1_5: TLabel;
+    ValueLabel1_6: TLabel;
+    ValueLabel1_7: TLabel;
+    ValueLabel1_8: TLabel;
+    ValueLabel1_9: TLabel;
+    recC: TRectangle;
+    Label1: TLabel;
+    procedure btn_homeClick(Sender: TObject);
+    procedure recCClick(Sender: TObject);
+    procedure Rectangle2Click(Sender: TObject);
+
+    procedure ResizedRec(ARectangle : TRectangle);
+    procedure ResizedLabel(ALabel : TLabel);
+    procedure FormCreate(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  Form10: TForm10;
+
+implementation
+
+{$R *.fmx}
+
+uses Unit1_Login, Unit2_Main, Unit14_Board1MM, Unit18_Board1Opt;
+
+procedure TForm10.btn_homeClick(Sender: TObject);
+begin
+  Form10.Close;
+  Form2.Show;
+end;
+
+procedure TForm10.FormCreate(Sender: TObject);
+var
+  i: Integer;
+  aLabel: TLabel;
+  aRec : TRectangle;
+begin
+  ScaleWidth := self.ClientWidth  /  411;
+  ScaleHeight := self.ClientHeight  / 765;
+  for i := 0 to 15 do
+  begin
+    aLabel := TLabel(FindComponent('ValueLabel0_' + IntToStr(i)));
+    if Assigned(aLabel) then
+    begin
+      aLabel.Text := '';
+      ResizedLabel(aLabel);
+    end;
+
+    aLabel := TLabel(FindComponent('CodeLabel0_' + IntToStr(i)));
+    if Assigned(aLabel) then
+    begin
+      aLabel.Text := '';
+      ResizedLabel(aLabel);
+    end;
+
+    aLabel := TLabel(FindComponent('StatusLabel0_' + IntToStr(i)));
+    if Assigned(aLabel) then
+    begin
+      aLabel.Text := '';
+      ResizedLabel(aLabel);
+    end;
+
+    aLabel := TLabel(FindComponent('ChimneyLabel0_' + IntToStr(i)));
+    if Assigned(aLabel) then
+    begin
+      aLabel.Text := '';
+      ResizedLabel(aLabel);
+    end;
+  end;
+
+  for i := 1 to 16 do
+  begin
+    aRec := TRectangle(FindComponent('cd' + IntToStr(i)));
+    if Assigned(aRec) then ResizedRec(aRec);
+
+    aRec := TRectangle(FindComponent('ty' + IntToStr(i)));
+    if Assigned(aRec) then ResizedRec(aRec);
+
+    aRec := TRectangle(FindComponent('cn' + IntToStr(i)));
+    if Assigned(aRec) then ResizedRec(aRec);
+
+    aRec := TRectangle(FindComponent('no' + IntToStr(i)));
+    if Assigned(aRec) then ResizedRec(aRec);
+
+    aRec := TRectangle(FindComponent('st' + IntToStr(i)));
+    if Assigned(aRec) then ResizedRec(aRec);
+  end;
+end;
+
+procedure TForm10.recCClick(Sender: TObject);
+begin
+  Form14.Show;
+end;
+
+procedure TForm10.Rectangle2Click(Sender: TObject);
+begin
+  Form18.Show;
+end;
+
+procedure TForm10.ResizedLabel(ALabel : TLabel);
+begin
+  ALabel.Width := ALabel.Width * ScaleWidth;
+  ALabel.Height := ALabel.Height * ScaleHeight;
+  ALabel.Position.X := ALabel.Position.X * ScaleWidth;
+  ALabel.Position.Y := ALabel.Position.Y * ScaleHeight;
+end;
+procedure TForm10.ResizedRec(ARectangle : TRectangle);
+begin
+  ARectangle.Width := ARectangle.Width * ScaleWidth;
+  ARectangle.Height := ARectangle.Height * ScaleHeight;
+  ARectangle.Position.X := ARectangle.Position.X * ScaleWidth;
+  ARectangle.Position.Y := ARectangle.Position.Y * ScaleHeight;
+end;
+
+end.

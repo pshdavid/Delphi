@@ -1,0 +1,96 @@
+unit Unit20_Board3Opt;
+
+interface
+
+uses
+  System.SysUtils, System.Types, System.UITypes, System.Classes, System.Variants,
+  FMX.Types, FMX.Controls, FMX.Forms, FMX.Graphics, FMX.Dialogs, FMX.Objects,
+  FMX.StdCtrls, FMX.Controls.Presentation, FMX.Edit, FMX.ListBox;
+
+type
+  TForm20 = class(TForm)
+    a_ch: TComboBox;
+    a_faci: TEdit;
+    a_faciN: TEdit;
+    a_facN: TComboBox;
+    a_sts: TComboBox;
+    a_type: TComboBox;
+    btn_back: TRectangle;
+    btn_home: TRectangle;
+    btn_read: TRectangle;
+    btn_save: TRectangle;
+    e_PW: TEdit;
+    Edit10: TEdit;
+    Edit7: TEdit;
+    Edit8: TEdit;
+    Edit9: TEdit;
+    Label1: TLabel;
+    Label10: TLabel;
+    Label11: TLabel;
+    Label12: TLabel;
+    Label13: TLabel;
+    Label14: TLabel;
+    Label15: TLabel;
+    Label16: TLabel;
+    Label17: TLabel;
+    Label18: TLabel;
+    Label19: TLabel;
+    Label20: TLabel;
+    Label21: TLabel;
+    Label3: TLabel;
+    Label4: TLabel;
+    Label5: TLabel;
+    Label6: TLabel;
+    Label7: TLabel;
+    Label8: TLabel;
+    Label9: TLabel;
+    Line1: TLine;
+    Rec1: TRectangle;
+    Rec2: TRectangle;
+    Rectangle10: TRectangle;
+    Rectangle11: TRectangle;
+    Rectangle12: TRectangle;
+    Rectangle13: TRectangle;
+    Rectangle6: TRectangle;
+    Rectangle7: TRectangle;
+    Rectangle8: TRectangle;
+    Rectangle9: TRectangle;
+    ssc1: TComboBox;
+    ssc2: TComboBox;
+    ssc3: TComboBox;
+    ssc4: TComboBox;
+    ssu1: TComboBox;
+    ssu2: TComboBox;
+    ssu3: TComboBox;
+    ssu4: TComboBox;
+    StyleBook1: TStyleBook;
+    procedure btn_backClick(Sender: TObject);
+    procedure btn_homeClick(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  Form20: TForm20;
+
+implementation
+
+{$R *.fmx}
+
+uses Unit1_Login, Unit2_Main, Unit12_Board3;
+
+procedure TForm20.btn_backClick(Sender: TObject);
+begin
+  Form20.Close;
+  Form12.Show;
+end;
+
+procedure TForm20.btn_homeClick(Sender: TObject);
+begin
+  Form20.Close;
+  Form2.Show;
+end;
+
+end.

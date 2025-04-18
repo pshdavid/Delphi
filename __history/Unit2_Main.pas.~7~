@@ -1,0 +1,82 @@
+unit Unit2_Main;
+
+interface
+
+uses
+  System.SysUtils, System.Types, System.UITypes, System.Classes, System.Variants,
+  FMX.Types, FMX.Controls, FMX.Forms, FMX.Graphics, FMX.Dialogs,
+  FMX.Controls.Presentation, FMX.StdCtrls, FMX.Objects, FMX.Memo.Types,
+  FMX.ScrollBox, FMX.Memo;
+
+type
+  TForm2 = class(TForm)
+    Rec1: TRectangle;
+    label1: TLabel;
+    lb_model: TLabel;
+    lb_version: TLabel;
+    Label2: TLabel;
+    s_bd0: TRectangle;
+    s_bd1: TRectangle;
+    Btn_SystemSetup: TRectangle;
+    s_bd2: TRectangle;
+    s_bd3: TRectangle;
+    Memo1: TMemo;
+    Label3: TLabel;
+    Label4: TLabel;
+    procedure Btn_SystemSetupClick(Sender: TObject);
+    procedure s_bd0Click(Sender: TObject);
+    procedure s_bd1Click(Sender: TObject);
+    procedure s_bd2Click(Sender: TObject);
+    procedure s_bd3Click(Sender: TObject);
+
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  Form2: TForm2;
+
+implementation
+
+{$R *.fmx}
+
+uses Unit3_System, Unit9_Board0, Unit10_Board1, Unit11_Board2, Unit12_Board3,
+  Unit1_Login;
+
+procedure TForm2.Btn_SystemSetupClick(Sender: TObject);
+begin
+  Form2.Hide;
+  Form3.Show;
+end;
+
+procedure TForm2.s_bd0Click(Sender: TObject);
+begin
+  SensorBoardNum := '0';
+  Form9.BoardNumLabel.Text := '0';
+  Form9.Show;
+end;
+
+procedure TForm2.s_bd1Click(Sender: TObject);
+begin
+  SensorBoardNum := '1';
+  Form9.BoardNumLabel.Text := '1';
+  Form9.Show;
+end;
+
+procedure TForm2.s_bd2Click(Sender: TObject);
+begin
+  SensorBoardNum := '2';
+  Form9.BoardNumLabel.Text := '2';
+  Form9.Show;
+end;
+
+procedure TForm2.s_bd3Click(Sender: TObject);
+begin
+  SensorBoardNum := '2';
+  Form9.BoardNumLabel.Text := '2';
+  Form9.Show;
+end;
+
+end.

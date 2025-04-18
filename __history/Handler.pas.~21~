@@ -1,0 +1,165 @@
+unit Handler;
+
+interface
+
+Uses
+  System.SysUtils, System.Types, System.UITypes, System.Classes, System.Variants,
+  FMX.Types, FMX.Controls, FMX.Forms, FMX.Graphics, FMX.Dialogs, FMX.Objects,
+  FMX.Controls.Presentation, FMX.StdCtrls, FMX.Edit, FMX.ListBox,  System.IniFiles,
+  System.IOUtils, Winsoft.Android.UsbSer,
+  Androidapi.JNIBridge, Winsoft.Android.Usb, FMX.Memo.Types, FMX.Platform, //FMX.ListBox,
+  Androidapi.JNI, Androidapi.JNI.Java.Net, Androidapi.JNI.JavaTypes, Androidapi.Helpers,
+  Androidapi.JNI.App, Androidapi.JNI.Os, FMX.Helpers.Android;
+
+
+procedure EditSet(AEdit : TEdit);
+procedure BoxSet(AComboBox : TComboBox);
+procedure BoxSet2(AComboBox : TComboBox);
+type
+  THandler = class
+
+  private
+    IniSet : TIniFile;     //Ini파일
+    FilePath : String;     //파일 경로
+  public
+    constructor Create;
+    destructor Destroy; override;
+
+    procedure SaveData( const ID, PW, Vendor : String );    //저장
+    function GetID : String;
+    function GetPW : String;                                //pw읽기
+    function GetVendor : String;                            //vendor읽기
+
+    procedure UpdatePW ( const newPW : String );            //pw수정
+    function ValidateLog ( const ID, PW : String ) : Boolean;
+
+
+
+  end;
+
+var
+  UsbDevices: TArray<JUsbDevice>;
+  UsbSerial: TUsbSerial;
+
+implementation
+
+constructor THandler.Create;
+begin
+  //모바일용 INI 저장 경로 설정
+  FilePath := TPath.Combine(TPath.GetDocumentsPath, 'Settings.ini');
+
+  if not FileExists(FilePath) then      //파일 있으면 읽어오기
+    TFile.Create(FilePath).Free;
+
+  IniSet := TIniFile.Create(FilePath);
+
+end;
+
+
+//INIFile
+destructor THandler.Destroy;
+begin
+  IniSet.Free;
+  inherited;
+end;
+
+//데이터 저장
+procedure THandler.SaveData(const ID: string; const PW: string; const Vendor: string);
+begin
+  IniSet.WriteString('User', 'ID', ID);
+  IniSet.WriteString('User', 'Password', PW);
+  IniSet.WriteString('User', 'Vendor', Vendor);
+  IniSet.UpdateFile;  //변경 사항 저장
+end;
+
+function THandler.GetID;
+begin
+  Result := IniSet.ReadString('User','ID','');
+end;
+function THandler.GetPW;
+begin
+  Result := IniSet.ReadString('User', 'Password', '');
+end;
+function THandler.GetVendor;
+begin
+  Result := IniSet.ReadString('User', 'Vendor', '');
+end;
+function THandler.ValidateLog(const ID: string; const PW: string) : Boolean;
+begin
+  Result := ( ID = GetID ) and ( PW = GetPW );
+end;
+
+procedure THandler.UpdatePW(const newPW: string);
+begin
+  IniSet.WriteString('User', 'Password', newPW);
+  IniSet.UpdateFile;
+end;
+
+
+//Edit Design
+procedure EditSet(AEdit : TEdit);
+var
+  Obj : TFmxObject;
+  Rect : TRectangle;
+begin
+  Obj := AEdit.FindStyleResource('background');
+
+  if Obj <> nil then
+    begin
+      TControl(Obj).Margins   := TBounds.Create(TRectF.Create(0, 0, 0, 0));
+      Rect                    := TRectangle.Create(Obj);
+      Obj.AddObject(Rect);
+      Rect.Align              := TAlignLayout.Client;
+      Rect.Fill.Color         := TAlphaColorRec.White;
+      Rect.Stroke.Color       := TAlphaColorRec.Silver;
+      Rect.Stroke.Thickness   := 2;
+      Rect.HitTest            := False;
+      Rect.Align              := TAlignLayout.None;
+      Rect.Width              := Rect.Width;
+      Rect.Height             := Rect.Height + 6;
+      Rect.Position.X         := Rect.Position.X;
+      Rect.Position.Y         := Rect.Position.Y-4;
+      Rect.SendToBack;
+    end;
+end;
+
+//ComboBox Design
+procedure BoxSet(AComboBox : TComboBox);
+var
+  i : Integer;
+begin
+  // 선택된 아이템이 존재하는지 확인
+  if AComboBox.Selected <> nil then
+  begin
+    for i := 0 to (AComboBox.Count - 1) do
+      begin
+      	AComboBox.ListItems[i].StyledSettings := []; // remove parent styles...
+      	AComboBox.ListItems[i].Font.Size      := 19; // changing the properties...
+        AComboBox.ListItems[i].Font.Style     := [TFontStyle.fsBold];
+        AComboBox.ListItems[i].FontColor      := TAlphaColorRec.Black;
+        AComboBox.ListItems[i].TextAlign      := TTextAlign.Center;
+      end;
+  end;
+end;
+
+procedure BoxSet2(AComboBox : TComboBox);
+var
+  i : Integer;
+begin
+  // 선택된 아이템이 존재하는지 확인
+  if AComboBox.Selected <> nil then
+  begin
+    for i := 0 to (AComboBox.Count - 1) do
+      begin
+      	AComboBox.ListItems[i].StyledSettings := []; // remove parent styles...
+      	AComboBox.ListItems[i].Font.Size      := 19; // changing the properties...
+        AComboBox.ListItems[i].Font.Style     := [TFontStyle.fsBold];
+        AComboBox.ListItems[i].FontColor      := TAlphaColorRec.Black;
+        AComboBox.ListItems[i].TextAlign      := TTextAlign.Leading;
+      end;
+  end;
+end;
+
+
+end.
+

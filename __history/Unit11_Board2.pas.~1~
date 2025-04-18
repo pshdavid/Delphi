@@ -1,0 +1,201 @@
+unit Unit11_Board2;
+
+interface
+
+uses
+  System.SysUtils, System.Types, System.UITypes, System.Classes, System.Variants,
+  FMX.Types, FMX.Controls, FMX.Forms, FMX.Graphics, FMX.Dialogs,
+  FMX.Controls.Presentation, FMX.StdCtrls, FMX.Objects;
+
+type
+  TForm11 = class(TForm)
+    btn_home: TRectangle;
+    cd1: TRectangle;
+    cd10: TRectangle;
+    cd11: TRectangle;
+    cd12: TRectangle;
+    cd13: TRectangle;
+    cd14: TRectangle;
+    cd15: TRectangle;
+    cd16: TRectangle;
+    cd2: TRectangle;
+    cd3: TRectangle;
+    cd4: TRectangle;
+    cd5: TRectangle;
+    cd6: TRectangle;
+    cd7: TRectangle;
+    cd8: TRectangle;
+    cd9: TRectangle;
+    ChimneyLabel2_0: TLabel;
+    ChimneyLabel2_1: TLabel;
+    ChimneyLabel2_10: TLabel;
+    ChimneyLabel2_11: TLabel;
+    ChimneyLabel2_12: TLabel;
+    ChimneyLabel2_13: TLabel;
+    ChimneyLabel2_14: TLabel;
+    ChimneyLabel2_15: TLabel;
+    ChimneyLabel2_2: TLabel;
+    ChimneyLabel2_3: TLabel;
+    ChimneyLabel2_4: TLabel;
+    ChimneyLabel2_5: TLabel;
+    ChimneyLabel2_6: TLabel;
+    ChimneyLabel2_7: TLabel;
+    ChimneyLabel2_8: TLabel;
+    ChimneyLabel2_9: TLabel;
+    cn1: TRectangle;
+    cn10: TRectangle;
+    cn11: TRectangle;
+    cn12: TRectangle;
+    cn13: TRectangle;
+    cn14: TRectangle;
+    cn15: TRectangle;
+    cn16: TRectangle;
+    cn2: TRectangle;
+    cn3: TRectangle;
+    cn4: TRectangle;
+    cn5: TRectangle;
+    cn6: TRectangle;
+    cn7: TRectangle;
+    cn8: TRectangle;
+    cn9: TRectangle;
+    CodeLabel2_0: TLabel;
+    CodeLabel2_1: TLabel;
+    CodeLabel2_10: TLabel;
+    CodeLabel2_11: TLabel;
+    CodeLabel2_12: TLabel;
+    CodeLabel2_13: TLabel;
+    CodeLabel2_14: TLabel;
+    CodeLabel2_15: TLabel;
+    CodeLabel2_2: TLabel;
+    CodeLabel2_3: TLabel;
+    CodeLabel2_4: TLabel;
+    CodeLabel2_5: TLabel;
+    CodeLabel2_6: TLabel;
+    CodeLabel2_7: TLabel;
+    CodeLabel2_8: TLabel;
+    CodeLabel2_9: TLabel;
+    Label2: TLabel;
+    no1: TRectangle;
+    Label7: TLabel;
+    no10: TRectangle;
+    Label17: TLabel;
+    no11: TRectangle;
+    Label18: TLabel;
+    no12: TRectangle;
+    Label19: TLabel;
+    no13: TRectangle;
+    Label20: TLabel;
+    no14: TRectangle;
+    Label21: TLabel;
+    no15: TRectangle;
+    Label22: TLabel;
+    no16: TRectangle;
+    Label23: TLabel;
+    no2: TRectangle;
+    Label9: TLabel;
+    no3: TRectangle;
+    Label10: TLabel;
+    no4: TRectangle;
+    Label11: TLabel;
+    no5: TRectangle;
+    Label12: TLabel;
+    no6: TRectangle;
+    Label13: TLabel;
+    no7: TRectangle;
+    Label14: TLabel;
+    no8: TRectangle;
+    Label15: TLabel;
+    no9: TRectangle;
+    Label16: TLabel;
+    Rec1: TRectangle;
+    Rec2: TRectangle;
+    Recchim: TRectangle;
+    Label8: TLabel;
+    Reccode: TRectangle;
+    Label5: TLabel;
+    Recno: TRectangle;
+    Label3: TLabel;
+    Recstatic: TRectangle;
+    Label6: TLabel;
+    Rectangle1: TRectangle;
+    Rectangle2: TRectangle;
+    Rectype: TRectangle;
+    Label4: TLabel;
+    st1: TRectangle;
+    st10: TRectangle;
+    st11: TRectangle;
+    st12: TRectangle;
+    st13: TRectangle;
+    st14: TRectangle;
+    st15: TRectangle;
+    st16: TRectangle;
+    st2: TRectangle;
+    st3: TRectangle;
+    st4: TRectangle;
+    st5: TRectangle;
+    st6: TRectangle;
+    st7: TRectangle;
+    st8: TRectangle;
+    st9: TRectangle;
+    StatusLabel2_0: TLabel;
+    StatusLabel2_1: TLabel;
+    StatusLabel2_10: TLabel;
+    StatusLabel2_11: TLabel;
+    StatusLabel2_12: TLabel;
+    StatusLabel2_13: TLabel;
+    StatusLabel2_14: TLabel;
+    StatusLabel2_15: TLabel;
+    StatusLabel2_3: TLabel;
+    StatusLabel2_4: TLabel;
+    StatusLabel2_5: TLabel;
+    StatusLabel2_6: TLabel;
+    StatusLabel2_7: TLabel;
+    StatusLabel2_8: TLabel;
+    StatusLabel2_9: TLabel;
+    ty1: TRectangle;
+    ty10: TRectangle;
+    ty11: TRectangle;
+    ty12: TRectangle;
+    ty13: TRectangle;
+    ty14: TRectangle;
+    ty15: TRectangle;
+    ty16: TRectangle;
+    ty2: TRectangle;
+    ty3: TRectangle;
+    ty4: TRectangle;
+    ty5: TRectangle;
+    ty6: TRectangle;
+    ty7: TRectangle;
+    ty8: TRectangle;
+    ty9: TRectangle;
+    ValueLabel2_0: TLabel;
+    ValueLabel2_1: TLabel;
+    ValueLabel2_10: TLabel;
+    ValueLabel2_11: TLabel;
+    ValueLabel2_12: TLabel;
+    ValueLabel2_13: TLabel;
+    ValueLabel2_14: TLabel;
+    ValueLabel2_15: TLabel;
+    ValueLabel2_2: TLabel;
+    ValueLabel2_3: TLabel;
+    ValueLabel2_4: TLabel;
+    ValueLabel2_5: TLabel;
+    ValueLabel2_6: TLabel;
+    ValueLabel2_7: TLabel;
+    ValueLabel2_8: TLabel;
+    ValueLabel2_9: TLabel;
+    StatusLabel2_2: TLabel;
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  Form11: TForm11;
+
+implementation
+
+{$R *.fmx}
+
+end.

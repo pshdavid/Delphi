@@ -22,6 +22,8 @@
 /Debug*/
 /Release*/
 /Android64/
+/_history/
+/_recovery/
 
 # 프로젝트 옵션 백업
 *.dproj.local
@@ -33,3 +35,7 @@
 # OS 자체 파일
 Thumbs.db
 .DS_Store
+
+# 임시파일
+.res
+.dcu

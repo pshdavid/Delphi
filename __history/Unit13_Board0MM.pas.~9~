@@ -1,0 +1,120 @@
+unit Unit13_Board0MM;
+
+interface
+
+uses
+  System.SysUtils, System.Types, System.UITypes, System.Classes, System.Variants,
+  FMX.Types, FMX.Controls, FMX.Forms, FMX.Graphics, FMX.Dialogs, FMX.Objects,
+  FMX.StdCtrls, FMX.Controls.Presentation, FMX.Edit;
+
+type
+  TForm13 = class(TForm)
+    SensorValueEdit0: TEdit;
+    SensorValueEdit9: TEdit;
+    SensorValueEdit10: TEdit;
+    SensorValueEdit11: TEdit;
+    SensorValueEdit12: TEdit;
+    SensorValueEdit13: TEdit;
+    SensorValueEdit14: TEdit;
+    SensorValueEdit15: TEdit;
+    SensorValueEdit1: TEdit;
+    SensorValueEdit2: TEdit;
+    SensorValueEdit3: TEdit;
+    SensorValueEdit4: TEdit;
+    SensorValueEdit5: TEdit;
+    SensorValueEdit6: TEdit;
+    SensorValueEdit7: TEdit;
+    SensorValueEdit8: TEdit;
+    Label10: TLabel;
+    Label11: TLabel;
+    Label12: TLabel;
+    Label13: TLabel;
+    Label14: TLabel;
+    Label15: TLabel;
+    Label16: TLabel;
+    Label17: TLabel;
+    Label18: TLabel;
+    Label19: TLabel;
+    Label2: TLabel;
+    Label3: TLabel;
+    Label4: TLabel;
+    Label5: TLabel;
+    Label6: TLabel;
+    Label7: TLabel;
+    Label8: TLabel;
+    Label9: TLabel;
+    Rec1: TRectangle;
+    Rec2: TRectangle;
+    btn_back: TRectangle;
+    Label1: TLabel;
+    btn_home: TRectangle;
+    StatusLabel: TLabel;
+    DateTimeLabel: TLabel;
+    Btn_SVRead: TRectangle;
+    procedure btn_backClick(Sender: TObject);
+    procedure btn_homeClick(Sender: TObject);
+    procedure Btn_SVReadClick(Sender: TObject);
+    procedure FormShow(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  Form13: TForm13;
+
+implementation
+
+{$R *.fmx}
+
+uses Unit1_Login, Unit2_Main, Unit9_Board0;
+
+procedure TForm13.btn_backClick(Sender: TObject);
+begin
+  Form13.Close;
+  Form9.Show;
+end;
+
+procedure TForm13.btn_homeClick(Sender: TObject);
+begin
+  Form13.Close;
+  Form2.Show;
+end;
+
+procedure TForm13.Btn_SVReadClick(Sender: TObject);
+var
+  sTR1 : String;
+begin
+  var cmd : String;
+  var data : TArray<Byte>;
+
+  CaseNum := 17;
+  sTR1 := '0';
+  cmd := '{"cmd":"r","s_bd":"'+sTR1+'","type":"a_val"}';
+  data := TEncoding.UTF8.GetBytes(cmd);
+  UsbSerial.Write(data, 1000);
+  Form1.AppendText('SEND : ' + cmd);
+end;
+
+procedure TForm13.FormShow(Sender: TObject);
+begin
+  SensorValueEdit0.Text := '';
+  SensorValueEdit1.Text := '';
+  SensorValueEdit2.Text := '';
+  SensorValueEdit3.Text := '';
+  SensorValueEdit4.Text := '';
+  SensorValueEdit5.Text := '';
+  SensorValueEdit6.Text := '';
+  SensorValueEdit7.Text := '';
+  SensorValueEdit8.Text := '';
+  SensorValueEdit9.Text := '';
+  SensorValueEdit10.Text := '';
+  SensorValueEdit11.Text := '';
+  SensorValueEdit12.Text := '';
+  SensorValueEdit13.Text := '';
+  SensorValueEdit14.Text := '';
+  SensorValueEdit15.Text := '';
+end;
+
+end.

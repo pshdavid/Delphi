@@ -1,0 +1,453 @@
+unit Unit9_Board0;
+
+interface
+
+uses
+  System.SysUtils, System.Types, System.UITypes, System.Classes, System.Variants,
+  FMX.Types, FMX.Controls, FMX.Forms, FMX.Graphics, FMX.Dialogs, FMX.ScrollBox, FMX.Objects,
+  FMX.Memo, FMX.Controls.Presentation, FMX.StdCtrls, Winsoft.Android.UsbSer,
+  Androidapi.JNIBridge, Winsoft.Android.Usb, FMX.ListBox, FMX.Memo.Types, FMX.Platform,
+  Androidapi.JNI, Androidapi.JNI.Java.Net, Androidapi.JNI.JavaTypes, Androidapi.Helpers,
+  Androidapi.JNI.App, Androidapi.JNI.Os, FMX.Helpers.Android, FMX.Edit;
+
+type
+  TForm9 = class(TForm)
+    cd1: TRectangle;
+    cd10: TRectangle;
+    cd11: TRectangle;
+    cd12: TRectangle;
+    cd13: TRectangle;
+    cd14: TRectangle;
+    cd15: TRectangle;
+    cd16: TRectangle;
+    cd2: TRectangle;
+    cd3: TRectangle;
+    cd4: TRectangle;
+    cd5: TRectangle;
+    cd6: TRectangle;
+    cd7: TRectangle;
+    cd8: TRectangle;
+    cd9: TRectangle;
+    cn1: TRectangle;
+    cn10: TRectangle;
+    cn11: TRectangle;
+    cn12: TRectangle;
+    cn13: TRectangle;
+    cn14: TRectangle;
+    cn15: TRectangle;
+    cn16: TRectangle;
+    cn2: TRectangle;
+    cn3: TRectangle;
+    cn4: TRectangle;
+    cn5: TRectangle;
+    cn6: TRectangle;
+    cn7: TRectangle;
+    cn8: TRectangle;
+    cn9: TRectangle;
+    no1: TRectangle;
+    Label7: TLabel;
+    no10: TRectangle;
+    Label17: TLabel;
+    no11: TRectangle;
+    Label18: TLabel;
+    no12: TRectangle;
+    Label19: TLabel;
+    no13: TRectangle;
+    Label20: TLabel;
+    no14: TRectangle;
+    Label21: TLabel;
+    no15: TRectangle;
+    Label22: TLabel;
+    no16: TRectangle;
+    Label23: TLabel;
+    no2: TRectangle;
+    Label9: TLabel;
+    no3: TRectangle;
+    Label10: TLabel;
+    no4: TRectangle;
+    Label11: TLabel;
+    no5: TRectangle;
+    Label12: TLabel;
+    no6: TRectangle;
+    Label13: TLabel;
+    no7: TRectangle;
+    Label14: TLabel;
+    no8: TRectangle;
+    Label15: TLabel;
+    no9: TRectangle;
+    Label16: TLabel;
+    Rec1: TRectangle;
+    Rec2: TRectangle;
+    Recchim: TRectangle;
+    Label8: TLabel;
+    Reccode: TRectangle;
+    Label5: TLabel;
+    Recno: TRectangle;
+    Label3: TLabel;
+    Recstatic: TRectangle;
+    Label6: TLabel;
+    Rectangle1: TRectangle;
+    Rectangle2: TRectangle;
+    Rectype: TRectangle;
+    Label4: TLabel;
+    st1: TRectangle;
+    st10: TRectangle;
+    st11: TRectangle;
+    st12: TRectangle;
+    st13: TRectangle;
+    st14: TRectangle;
+    st15: TRectangle;
+    st16: TRectangle;
+    st2: TRectangle;
+    st3: TRectangle;
+    st4: TRectangle;
+    st5: TRectangle;
+    st6: TRectangle;
+    st7: TRectangle;
+    st8: TRectangle;
+    st9: TRectangle;
+    ty1: TRectangle;
+    ty10: TRectangle;
+    ty11: TRectangle;
+    ty12: TRectangle;
+    ty13: TRectangle;
+    ty14: TRectangle;
+    ty15: TRectangle;
+    ty16: TRectangle;
+    ty2: TRectangle;
+    ty3: TRectangle;
+    ty4: TRectangle;
+    ty5: TRectangle;
+    ty6: TRectangle;
+    ty7: TRectangle;
+    ty8: TRectangle;
+    ty9: TRectangle;
+    Label2: TLabel;
+    btn_home: TRectangle;
+    ValueLabel0_0: TLabel;
+    ValueLabel0_1: TLabel;
+    ValueLabel0_2: TLabel;
+    ValueLabel0_3: TLabel;
+    ValueLabel0_4: TLabel;
+    ValueLabel0_5: TLabel;
+    ValueLabel0_6: TLabel;
+    ValueLabel0_7: TLabel;
+    ValueLabel0_8: TLabel;
+    ValueLabel0_9: TLabel;
+    ValueLabel0_10: TLabel;
+    ValueLabel0_11: TLabel;
+    ValueLabel0_12: TLabel;
+    ValueLabel0_13: TLabel;
+    ValueLabel0_14: TLabel;
+    ValueLabel0_15: TLabel;
+    CodeLabel0_0: TLabel;
+    CodeLabel0_1: TLabel;
+    CodeLabel0_2: TLabel;
+    CodeLabel0_3: TLabel;
+    CodeLabel0_4: TLabel;
+    CodeLabel0_5: TLabel;
+    CodeLabel0_6: TLabel;
+    CodeLabel0_7: TLabel;
+    CodeLabel0_8: TLabel;
+    CodeLabel0_9: TLabel;
+    CodeLabel0_10: TLabel;
+    CodeLabel0_11: TLabel;
+    CodeLabel0_12: TLabel;
+    CodeLabel0_13: TLabel;
+    CodeLabel0_14: TLabel;
+    CodeLabel0_15: TLabel;
+    StatusLabel0_0: TLabel;
+    StatusLabel0_1: TLabel;
+    StatusLabel0_2: TLabel;
+    StatusLabel0_3: TLabel;
+    StatusLabel0_4: TLabel;
+    StatusLabel0_5: TLabel;
+    StatusLabel0_6: TLabel;
+    StatusLabel0_7: TLabel;
+    StatusLabel0_8: TLabel;
+    StatusLabel0_9: TLabel;
+    StatusLabel0_10: TLabel;
+    StatusLabel0_11: TLabel;
+    StatusLabel0_12: TLabel;
+    StatusLabel0_13: TLabel;
+    StatusLabel0_14: TLabel;
+    StatusLabel0_15: TLabel;
+    ChimneyLabel0_0: TLabel;
+    ChimneyLabel0_1: TLabel;
+    ChimneyLabel0_2: TLabel;
+    ChimneyLabel0_3: TLabel;
+    ChimneyLabel0_4: TLabel;
+    ChimneyLabel0_5: TLabel;
+    ChimneyLabel0_6: TLabel;
+    ChimneyLabel0_7: TLabel;
+    ChimneyLabel0_8: TLabel;
+    ChimneyLabel0_9: TLabel;
+    ChimneyLabel0_10: TLabel;
+    ChimneyLabel0_11: TLabel;
+    ChimneyLabel0_12: TLabel;
+    ChimneyLabel0_13: TLabel;
+    ChimneyLabel0_14: TLabel;
+    ChimneyLabel0_15: TLabel;
+    recC: TRectangle;
+    Label1: TLabel;
+    BoardNumLabel: TLabel;
+    DataReadTimer: TTimer;
+    SensorBoardReadTimer: TTimer;
+    procedure btn_homeClick(Sender: TObject);
+    procedure recCClick(Sender: TObject);
+    procedure Rectangle2Click(Sender: TObject);
+    procedure Rectangle1Click(Sender: TObject);
+
+    procedure ResizedRec(ARectangle : TRectangle);
+    procedure ResizedLabel(ALabel : TLabel);
+    procedure FormCreate(Sender: TObject);
+    procedure DataReadTimerTimer(Sender: TObject);
+    procedure SensorBoardReadTimerTimer(Sender: TObject);
+
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  Form9: TForm9;
+  TimerCnt : Integer;
+
+implementation
+
+{$R *.fmx}
+
+uses Unit1_Login, Unit2_Main, Unit10_BoardMM, Unit11_BoardOpt;
+
+
+procedure TForm9.btn_homeClick(Sender: TObject);
+begin
+  Form9.Close;
+  Form2.Show;
+end;
+
+procedure TForm9.DataReadTimerTimer(Sender: TObject);
+var
+  sTR1 : String;
+begin
+  var Buffer: TArray<Byte>;
+
+  SetLength(Buffer, 1000);
+  const Size = UsbSerial.Read(Buffer, 1000);
+
+  if Size >= 1 then
+    begin
+      SetLength(Buffer, Size);
+      sTR1 := TEncoding.UTF8.GetString(Buffer);
+
+      //ReadString := ReadString + sTR1;
+      Form1.AppendText('RECV : ' + sTR1);
+      Form1.AnalyzingMessage(sTR1);
+      DataReadTimer.Enabled := FALSE;
+    end;
+end;
+
+procedure TForm9.FormCreate(Sender: TObject);
+var
+  i: Integer;
+  aLabel: TLabel;
+  aRec : TRectangle;
+begin
+  ScaleWidth := self.ClientWidth  /  411;
+  ScaleHeight := self.ClientHeight  / 765;
+
+  for i := 0 to 15 do
+  begin
+    aLabel := TLabel(FindComponent('ValueLabel0_' + IntToStr(i)));
+    if Assigned(aLabel) then
+    begin
+      aLabel.Text := '';
+      ResizedLabel(aLabel);
+    end;
+
+    aLabel := TLabel(FindComponent('CodeLabel0_' + IntToStr(i)));
+    if Assigned(aLabel) then
+    begin
+      aLabel.Text := '';
+      ResizedLabel(aLabel);
+    end;
+
+    aLabel := TLabel(FindComponent('StatusLabel0_' + IntToStr(i)));
+    if Assigned(aLabel) then
+    begin
+      aLabel.Text := '';
+      ResizedLabel(aLabel);
+    end;
+
+    aLabel := TLabel(FindComponent('ChimneyLabel0_' + IntToStr(i)));
+    if Assigned(aLabel) then
+    begin
+      aLabel.Text := '';
+      ResizedLabel(aLabel);
+    end;
+  end;
+
+  for i := 1 to 16 do
+  begin
+    aRec := TRectangle(FindComponent('cd' + IntToStr(i)));
+    if Assigned(aRec) then ResizedRec(aRec);
+
+    aRec := TRectangle(FindComponent('ty' + IntToStr(i)));
+    if Assigned(aRec) then ResizedRec(aRec);
+
+    aRec := TRectangle(FindComponent('cn' + IntToStr(i)));
+    if Assigned(aRec) then ResizedRec(aRec);
+
+    aRec := TRectangle(FindComponent('no' + IntToStr(i)));
+    if Assigned(aRec) then ResizedRec(aRec);
+
+    aRec := TRectangle(FindComponent('st' + IntToStr(i)));
+    if Assigned(aRec) then ResizedRec(aRec);
+  end;
+
+  ResizedRec(Recchim);
+  ResizedRec(RecNo);
+  ResizedRec(Recstatic);
+  ResizedRec(Reccode);
+  ResizedRec(Rectype);
+  ResizedRec(btn_home);
+  ResizedRec(recC);
+  ResizedRec(Rectangle1);
+  ResizedRec(Rectangle2);
+  ResizedLabel(Label2);
+  ResizedLabel(BoardNumLabel);
+end;
+
+procedure TForm9.recCClick(Sender: TObject);
+begin
+  SensorBoardNum := Form9.BoardNumLabel.Text;
+  Form10.BoardNumLabel.Text := SensorBoardNum;
+  Form10.Show;
+end;
+
+procedure TForm9.Rectangle1Click(Sender: TObject);
+var
+  sTR1 : String;
+begin
+  try
+    UsbDevices := UsbSerial.UsbDevices;
+    const Device = UsbDevices[0];
+
+    if not UsbSerial.IsSupported(Device) then
+      raise Exception.Create('Unsupported device');
+
+    if not UsbSerial.HasPermission(Device) then
+      begin
+        UsbSerial.RequestPermission(Device);
+        Exit;
+      end;
+
+    UsbSerial.Connect(Device);
+  except
+    ShowMessage('연결된 USB 가 없습니다...');
+    exit;
+  end;
+
+  UsbSerial.Open(TRUE);
+  UsbSerial.BaudRate := 115200;
+  UsbSerial.Parity := TParity.None;
+  UsbSerial.FlowControl := TFlowControl.Off;
+  UsbSerial.DataBits := TDataBits._8;
+  UsbSerial.StopBits := TStopBits._1;
+
+  TimerCnt := 0;
+  SensorBoardReadTimer.Enabled := TRUE;
+end;
+
+procedure TForm9.Rectangle2Click(Sender: TObject);
+begin
+  SensorBoardNum := Form9.BoardNumLabel.Text;
+  Form11.BoardNumLabel.Text := SensorBoardNum;
+  Form11.Show;
+end;
+
+procedure TForm9.ResizedLabel(ALabel : TLabel);
+begin
+  ALabel.Width := ALabel.Width * ScaleWidth;
+  ALabel.Height := ALabel.Height * ScaleHeight;
+  ALabel.Position.X := ALabel.Position.X * ScaleWidth;
+  ALabel.Position.Y := ALabel.Position.Y * ScaleHeight;
+end;
+procedure TForm9.ResizedRec(ARectangle : TRectangle);
+begin
+  ARectangle.Width := ARectangle.Width * ScaleWidth;
+  ARectangle.Height := ARectangle.Height * ScaleHeight;
+  ARectangle.Position.X := ARectangle.Position.X * ScaleWidth;
+  ARectangle.Position.Y := ARectangle.Position.Y * ScaleHeight;
+end;
+
+procedure TForm9.SensorBoardReadTimerTimer(Sender: TObject);
+var
+  cmd : String;
+  data : TArray<Byte>;
+  sTR1 : String;
+begin
+  TimerCnt := TimerCnt + 1;
+
+  if TimerCnt = 1 then
+    begin
+      CaseNum := 18;
+      sTR1 := BoardNumLabel.Text;
+
+      cmd := '{"cmd":"r","s_bd":"' + sTR1 + '","type":"a_type"}';
+
+      data := TEncoding.UTF8.GetBytes(cmd);
+      UsbSerial.Write(data, 1000);
+      Form1.AppendText('SEND : ' + cmd);
+
+      DataReadTimer.Enabled := TRUE;
+    end;
+
+  if TimerCnt = 1 then
+    begin
+      CaseNum := 19;
+      sTR1 := BoardNumLabel.Text;
+
+      cmd := '{"cmd":"r","s_bd":"' + sTR1 + '","type":"a_faci"}';
+
+      data := TEncoding.UTF8.GetBytes(cmd);
+      UsbSerial.Write(data, 1000);
+      Form1.AppendText('SEND : ' + cmd);
+
+      DataReadTimer.Enabled := TRUE;
+    end;
+
+  if TimerCnt = 1 then
+    begin
+      CaseNum := 20;
+      sTR1 := BoardNumLabel.Text;
+
+      cmd := '{"cmd":"r","s_bd":"' + sTR1 + '","type":"a_sts"}';
+
+      data := TEncoding.UTF8.GetBytes(cmd);
+      UsbSerial.Write(data, 1000);
+      Form1.AppendText('SEND : ' + cmd);
+
+      DataReadTimer.Enabled := TRUE;
+    end;
+
+  if TimerCnt = 1 then
+    begin
+      CaseNum := 21;
+      sTR1 := BoardNumLabel.Text;
+
+      cmd := '{"cmd":"r","s_bd":"' + sTR1 + '","type":"a_chim"}';
+
+      data := TEncoding.UTF8.GetBytes(cmd);
+      UsbSerial.Write(data, 1000);
+      Form1.AppendText('SEND : ' + cmd);
+
+      DataReadTimer.Enabled := TRUE;
+
+      TimerCnt := 0;
+      SensorBoardReadTimer.Enabled := FALSE;
+    end;
+end;
+
+end.

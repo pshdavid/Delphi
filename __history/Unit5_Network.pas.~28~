@@ -1,0 +1,274 @@
+unit Unit5_Network;
+
+interface
+
+uses
+  System.SysUtils, System.Types, System.UITypes, System.Classes, System.Variants,
+  FMX.Types, FMX.Controls, FMX.Forms, FMX.Graphics, FMX.Dialogs, FMX.ScrollBox, FMX.Objects,
+  FMX.Memo, FMX.Controls.Presentation, FMX.StdCtrls, Winsoft.Android.UsbSer,
+  Androidapi.JNIBridge, Winsoft.Android.Usb, FMX.ListBox, FMX.Memo.Types, FMX.Platform,
+  Androidapi.JNI, Androidapi.JNI.Java.Net, Androidapi.JNI.JavaTypes, Androidapi.Helpers,
+  Androidapi.JNI.App, Androidapi.JNI.Os, FMX.Helpers.Android, FMX.Edit;
+
+type
+  TForm5 = class(TForm)
+    NetworkDHCPCBox: TComboBox;
+    NWPasswordEdit: TEdit;
+    NetworkGWEdit: TEdit;
+    NetworkIPEdit: TEdit;
+    Label2: TLabel;
+    Label3: TLabel;
+    Label4: TLabel;
+    Label5: TLabel;
+    Label6: TLabel;
+    NetworkMaskEdit: TEdit;
+    Rec1: TRectangle;
+    Rec2: TRectangle;
+    StyleBook1: TStyleBook;
+    btn_back: TRectangle;
+    Label7: TLabel;
+    btn_home: TRectangle;
+    Label1: TLabel;
+    Btn_NWRead: TRectangle;
+    Btn_NWSave: TRectangle;
+    DataReadTimer: TTimer;
+    procedure Btn_NWReadClick(Sender: TObject);
+    procedure btn_backClick(Sender: TObject);
+    procedure btn_homeClick(Sender: TObject);
+    procedure Btn_NWSaveClick(Sender: TObject);
+    procedure FormShow(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
+
+    procedure ResizedRec(ARectangle : TRectangle);
+    procedure ResizedEdit(AEdit : TEdit);
+    procedure ResizedLabel(ALabel : TLabel);
+    procedure ResizedBox(AComboBox : TComboBox);
+    procedure NWPasswordEditApplyStyleLookup(Sender: TObject);
+    procedure NetworkGWEditApplyStyleLookup(Sender: TObject);
+    procedure NetworkIPEditApplyStyleLookup(Sender: TObject);
+    procedure NetworkMaskEditApplyStyleLookup(Sender: TObject);
+    procedure NetworkDHCPCBoxChange(Sender: TObject);
+    procedure DataReadTimerTimer(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  Form5: TForm5;
+
+implementation
+
+{$R *.fmx}
+
+uses Unit1_Login, Unit3_System, Unit2_Main, Handler;
+
+procedure TForm5.btn_backClick(Sender: TObject);
+begin
+  Form5.Close;
+  Form3.Show;
+end;
+
+procedure TForm5.btn_homeClick(Sender: TObject);
+begin
+  Form5.Close;
+  Form2.Show;
+end;
+
+procedure TForm5.FormCreate(Sender: TObject);
+begin
+  ScaleWidth := self.ClientWidth  /  411;
+  ScaleHeight := self.ClientHeight  / 765;
+
+  ResizedLabel(Label1);
+  ResizedLabel(Label2);
+  ResizedLabel(Label3);
+  ResizedLabel(Label4);
+  ResizedLabel(Label5);
+  ResizedLabel(Label6);
+  ResizedLabel(Label7);
+
+  ResizedRec(Rec1);
+  ResizedRec(Rec2);
+  ResizedRec(btn_back);
+  ResizedRec(btn_home);
+  ResizedRec(Btn_NWRead);
+  ResizedRec(Btn_NWSave);
+
+  ResizedBox(NetworkDHCPCBox);
+
+  ResizedEdit(NetworkGWEdit);
+  ResizedEdit(NetworkIPEdit);
+  ResizedEdit(NetworkMaskEdit);
+  ResizedEdit(NWPasswordEdit);
+
+  UsbSerial := TUsbSerial.Create;
+end;
+
+procedure TForm5.FormShow(Sender: TObject);
+begin
+  NWPasswordEdit.Text := '1111111111';
+  NetworkDHCPCBox.ItemIndex := -1;
+  NetworkGWEdit.Text := '';
+  NetworkIPEdit.Text := '';
+  NetworkMaskEdit.Text := '';
+end;
+
+procedure TForm5.NetworkDHCPCBoxChange(Sender: TObject);
+begin
+  BoxSet(NetWorkDHCPCBox);
+end;
+
+procedure TForm5.NetworkGWEditApplyStyleLookup(Sender: TObject);
+begin
+  EditSet(NetworkGWEdit);
+end;
+
+procedure TForm5.NetworkIPEditApplyStyleLookup(Sender: TObject);
+begin
+  EditSet(NetworkIPEdit);
+end;
+
+procedure TForm5.NetworkMaskEditApplyStyleLookup(Sender: TObject);
+begin
+  EditSet(NetworkMaskEdit);
+end;
+
+procedure TForm5.NWPasswordEditApplyStyleLookup(Sender: TObject);
+begin
+  EditSet(NWPasswordEdit);
+end;
+
+procedure TForm5.Btn_NWReadClick(Sender: TObject);
+begin
+  if not (NWPasswordEdit.Text = '1111111111') then
+    begin
+      ShowMessage('비밀번호가 틀립니다...');
+      exit;
+    end;
+
+  try
+    UsbDevices := UsbSerial.UsbDevices;
+    const Device = UsbDevices[0];
+
+    if not UsbSerial.IsSupported(Device) then
+      raise Exception.Create('Unsupported device');
+
+    if not UsbSerial.HasPermission(Device) then
+      begin
+        UsbSerial.RequestPermission(Device);
+        Exit;
+      end;
+
+    UsbSerial.Connect(Device);
+  except
+    ShowMessage('연결된 USB 가 없습니다...');
+    exit;
+  end;
+
+  var cmd : String;
+  var data : TArray<Byte>;
+
+  UsbSerial.Open(TRUE);
+  UsbSerial.BaudRate := 115200;
+  UsbSerial.Parity := TParity.None;
+  UsbSerial.FlowControl := TFlowControl.Off;
+  UsbSerial.DataBits := TDataBits._8;
+  UsbSerial.StopBits := TStopBits._1;
+
+  CaseNum := 4;
+  cmd := '{"cmd":"r","type":"esp_nw"}';      // Network Read
+  data := TEncoding.UTF8.GetBytes(cmd);
+
+  UsbSerial.Write(data, 0);
+  Form1.AppendText('SEND : ' + cmd);
+end;
+
+
+
+procedure TForm5.Btn_NWSaveClick(Sender: TObject);
+var
+  sTR1, sTR2, sTR3, sTR4 : String;
+begin
+  if not (NWPasswordEdit.Text = '1111111111') then
+    begin
+      ShowMessage('비밀번호가 틀립니다...');
+      exit;
+    end;
+
+  if (NetworkGWEdit.Text = '') or (NetworkIPEdit.Text = '') or (NetworkMaskEdit.Text = '') then
+    begin
+      ShowMessage('Gateway, IP, NetMask을 입력하세요. ');
+      exit;
+    end;
+
+  var cmd : String;
+  var data : TArray<Byte>;
+
+  sTR1 := Form5.NWPasswordEdit.Text;
+  sTR2 := Form5.NetworkGWEdit.Text;
+  sTR3 := Form5.NetworkIPEdit.Text;
+  sTR4 := Form5.NetworkMaskEdit.Text;
+
+  CaseNum := 5;
+  if Form5.NetworkDHCPCBox.ItemIndex = 0 then cmd := '{"cmd":"w","pw":"' + sTR1 + '","dhcp":"enable"}';
+  if Form5.NetworkDHCPCBox.ItemIndex = 1 then cmd := '{"cmd":"w","dhcp":"disable","gateway":"' + sTR2
+                                                          + '","ipaddr":"' + sTR3 + '","netmask":"' + sTR4 + '","pw":"' + sTR1 + '"}';
+
+  data := TEncoding.UTF8.GetBytes(cmd);
+  UsbSerial.Write(data, 0);
+  Form1.AppendText('SEND : ' + cmd);
+end;
+
+procedure TForm5.DataReadTimerTimer(Sender: TObject);
+var
+  sTR1 : String;
+begin
+  var Buffer: TArray<Byte>;
+
+  SetLength(Buffer, 1000);
+  const Size = UsbSerial.Read(Buffer, 1000);
+
+  if Size >= 1 then
+    begin
+      SetLength(Buffer, Size);
+      sTR1 := TEncoding.UTF8.GetString(Buffer);
+
+      //ReadString := ReadString + sTR1;
+      Form1.AppendText('RECV : ' + sTR1);
+      Form1.AnalyzingMessage(sTR1);
+      DataReadTimer.Enabled := FALSE;
+    end;
+end;
+
+procedure TForm5.ResizedLabel(ALabel : TLabel);
+begin
+  ALabel.Width := ALabel.Width * ScaleWidth;
+  ALabel.Height := ALabel.Height * ScaleHeight;
+  ALabel.Position.X := ALabel.Position.X * ScaleWidth;
+  ALabel.Position.Y := ALabel.Position.Y * ScaleHeight;
+end;
+procedure TForm5.ResizedEdit(AEdit : TEdit);
+begin
+  AEdit.Width := AEdit.Width * ScaleWidth;
+  AEdit.Height := AEdit.Height * ScaleHeight;
+  AEdit.Position.X := AEdit.Position.X * ScaleWidth;
+  AEdit.Position.Y := AEdit.Position.Y * ScaleHeight;
+end;
+procedure TForm5.ResizedBox(AComboBox : TComboBox);
+begin
+  AComboBox.Width := AComboBox.Width * ScaleWidth;
+  AComboBox.Height := AComboBox.Height * ScaleHeight;
+  AComboBox.Position.X := AComboBox.Position.X * ScaleWidth;
+  AComboBox.Position.Y := AComboBox.Position.Y * ScaleHeight;
+end;
+procedure TForm5.ResizedRec(ARectangle : TRectangle);
+begin
+  ARectangle.Width := ARectangle.Width * ScaleWidth;
+  ARectangle.Height := ARectangle.Height * ScaleHeight;
+  ARectangle.Position.X := ARectangle.Position.X * ScaleWidth;
+  ARectangle.Position.Y := ARectangle.Position.Y * ScaleHeight;
+end;
+
+end.

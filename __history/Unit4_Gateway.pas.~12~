@@ -1,0 +1,195 @@
+unit Unit4_Gateway;
+
+interface
+
+uses
+  System.SysUtils, System.Types, System.UITypes, System.Classes, System.Variants,
+  FMX.Types, FMX.Controls, FMX.Forms, FMX.Graphics, FMX.Dialogs, FMX.Edit,
+  FMX.ListBox, FMX.Controls.Presentation, FMX.StdCtrls, FMX.Objects;
+
+type
+  TForm4 = class(TForm)
+    Rec1: TRectangle;
+    Rec2: TRectangle;
+    Label1: TLabel;
+    Label4: TLabel;
+    GWTypeCBox: TComboBox;
+    Label6: TLabel;
+    GWPasswordEdit: TEdit;
+    Btn_GWRead: TRectangle;
+    Btn_GWSave: TRectangle;
+    Label2: TLabel;
+    lb_model: TLabel;
+    Label3: TLabel;
+    lb_version: TLabel;
+    ListBoxItem1: TListBoxItem;
+    ListBoxItem2: TListBoxItem;
+    ListBoxItem3: TListBoxItem;
+    Label5: TLabel;
+    btn_back: TRectangle;
+    btn_home: TRectangle;
+    procedure FormShow(Sender: TObject);
+    procedure Btn_GWReadClick(Sender: TObject);
+    procedure Btn_GWSaveClick(Sender: TObject);
+    procedure btn_backClick(Sender: TObject);
+    procedure btn_homeClick(Sender: TObject);
+    procedure GWPasswordEditApplyStyleLookup(Sender: TObject);
+    procedure GWTypeCBoxChange(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
+
+    procedure ResizedRec(ARectangle : TRectangle);
+    procedure ResizedEdit(AEdit : TEdit);
+    procedure ResizedLabel(ALabel : TLabel);
+    procedure ResizedBox(AComboBox : TComboBox);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  Form4: TForm4;
+
+implementation
+
+{$R *.fmx}
+
+uses Unit1_Login, Unit2_Main, Unit3_System, Handler;
+
+procedure TForm4.btn_backClick(Sender: TObject);
+begin
+  Form4.Close;
+  Form3.Show;
+end;
+
+procedure TForm4.Btn_GWReadClick(Sender: TObject);
+begin
+  if not (GWPasswordEdit.Text = '1111111111') then
+    begin
+      ShowMessage('비밀번호가 틀립니다...');
+      exit;
+    end;
+
+  var cmd : String;
+  var data : TArray<Byte>;
+
+  CaseNum := 2;
+  cmd := '{"cmd":"r","type":"esp_gw"}';      // Gateway Read
+  data := TEncoding.UTF8.GetBytes(cmd);
+  UsbSerial.Write(data, 1000);
+  Form1.AppendText('SEND : ' + cmd);
+end;
+
+procedure TForm4.Btn_GWSaveClick(Sender: TObject);
+var
+  sTR2, sTR3, sTR4 : String;
+begin
+  if not (GWPasswordEdit.Text = '1111111111') then
+    begin
+      ShowMessage('비밀번호가 틀립니다...');
+      exit;
+    end;
+
+  if (lb_model.Text = '') or (lb_version.Text = '') then
+    begin
+      ShowMessage('모델명과 버전을 입력하세요...');
+      exit;
+    end;
+
+  var cmd : String;
+  var data : TArray<Byte>;
+
+  CaseNum := 3;
+  if Form4.GWTypeCBox.ItemIndex = 0 then sTR2 := '0';
+  if Form4.GWTypeCBox.ItemIndex = 1 then sTR2 := '1';
+  if Form4.GWTypeCBox.ItemIndex = 2 then sTR2 := '2';
+
+  sTR3 := '0' + sTR2;
+  sTR4 := GWPasswordEdit.Text;
+
+  cmd := '{"cmd":"w","pw":"' + sTR4 + '","gw_type":"' + sTR3 + '"}';
+  data := TEncoding.UTF8.GetBytes(cmd);
+  UsbSerial.Write(data, 1000);
+  Form1.AppendText('SEND : ' + cmd);
+end;
+
+
+procedure TForm4.btn_homeClick(Sender: TObject);
+begin
+  Form4.Close;
+  Form2.Show;
+end;
+
+procedure TForm4.FormCreate(Sender: TObject);
+begin
+  ScaleWidth := Screen.DesktopWidth /  411;
+  ScaleHeight := Screen.DesktopHeight / 765;
+end;
+
+procedure TForm4.FormShow(Sender: TObject);
+begin
+  lb_model.Text := '';
+  lb_version.Text := '';
+
+  GWTypeCBox.ItemIndex := -1;
+
+  ResizedLabel(Label1);
+  ResizedLabel(Label2);
+  ResizedLabel(Label3);
+  ResizedLabel(Label4);
+  ResizedLabel(Label5);
+  ResizedLabel(Label6);
+  ResizedLabel(lb_model);
+  ResizedLabel(lb_version);
+
+  ResizedRec(Rec1);
+  ResizedRec(Rec2);
+  ResizedRec(btn_back);
+  ResizedRec(Btn_GWRead);
+  ResizedRec(Btn_GWSave);
+  ResizedRec(btn_home);
+
+  ResizedBox(GWTypeCBox);
+  ResizedEdit(GWPasswordEdit);
+end;
+
+procedure TForm4.GWPasswordEditApplyStyleLookup(Sender: TObject);
+begin
+  EditSet(GWPasswordEdit);
+end;
+
+procedure TForm4.GWTypeCBoxChange(Sender: TObject);
+begin
+  BoxSet(GWTypecBox);
+end;
+
+procedure TForm4.ResizedLabel(ALabel : TLabel);
+begin
+  ALabel.Width := ALabel.Width * ScaleWidth;
+  ALabel.Height := ALabel.Height * ScaleHeight;
+  ALabel.Position.X := ALabel.Position.X * ScaleWidth;
+  ALabel.Position.Y := ALabel.Position.Y * ScaleHeight;
+end;
+procedure TForm4.ResizedEdit(AEdit : TEdit);
+begin
+  AEdit.Width := AEdit.Width * ScaleWidth;
+  AEdit.Height := AEdit.Height * ScaleHeight;
+  AEdit.Position.X := AEdit.Position.X * ScaleWidth;
+  AEdit.Position.Y := AEdit.Position.Y * ScaleHeight;
+end;
+procedure TForm4.ResizedBox(AComboBox : TComboBox);
+begin
+  AComboBox.Width := AComboBox.Width * ScaleWidth;
+  AComboBox.Height := AComboBox.Height * ScaleHeight;
+  AComboBox.Position.X := AComboBox.Position.X * ScaleWidth;
+  AComboBox.Position.Y := AComboBox.Position.Y * ScaleHeight;
+end;
+procedure TForm4.ResizedRec(ARectangle : TRectangle);
+begin
+  ARectangle.Width := ARectangle.Width * ScaleWidth;
+  ARectangle.Height := ARectangle.Height * ScaleHeight;
+  ARectangle.Position.X := ARectangle.Position.X * ScaleWidth;
+  ARectangle.Position.Y := ARectangle.Position.Y * ScaleHeight;
+end;
+
+end.

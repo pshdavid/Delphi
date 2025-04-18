@@ -1,0 +1,52 @@
+program IOTGateway;
+
+uses
+  System.StartUpCopy,
+  FMX.Forms,
+  Unit1_Login in 'Unit1_Login.pas' {Form1},
+  Unit2_Main in 'Unit2_Main.pas' {Form2},
+  Unit3_System in 'Unit3_System.pas' {Form3},
+  Unit4_Gateway in 'Unit4_Gateway.pas' {Form4},
+  Unit5_Network in 'Unit5_Network.pas' {Form5},
+  Unit6_Server in 'Unit6_Server.pas' {Form6},
+  Unit7_Chimney in 'Unit7_Chimney.pas' {Form7},
+  Unit8_DateTime in 'Unit8_DateTime.pas' {Form8},
+  Unit9_Board0 in 'Unit9_Board0.pas' {Form9},
+  Unit10_Board1 in 'Unit10_Board1.pas' {Form10},
+  Unit11_Board2 in 'Unit11_Board2.pas' {Form11},
+  Unit12_Board3 in 'Unit12_Board3.pas' {Form12},
+  Unit13_Board0MM in 'Unit13_Board0MM.pas' {Form13},
+  Unit14_Board1MM in 'Unit14_Board1MM.pas' {Form14},
+  Unit15_Board2MM in 'Unit15_Board2MM.pas' {Form15},
+  Unit16_Board3MM in 'Unit16_Board3MM.pas' {Form16},
+  Unit17_Board0Opt in 'Unit17_Board0Opt.pas' {Form17},
+  Unit18_Board1Opt in 'Unit18_Board1Opt.pas' {Form18},
+  Unit19_Board2Opt in 'Unit19_Board2Opt.pas' {Form19},
+  Unit20_Board3Opt in 'Unit20_Board3Opt.pas' {Form20};
+
+{$R *.res}
+
+begin
+  Application.Initialize;
+  Application.CreateForm(TForm1, Form1);
+  Application.CreateForm(TForm2, Form2);
+  Application.CreateForm(TForm3, Form3);
+  Application.CreateForm(TForm4, Form4);
+  Application.CreateForm(TForm5, Form5);
+  Application.CreateForm(TForm6, Form6);
+  Application.CreateForm(TForm7, Form7);
+  Application.CreateForm(TForm8, Form8);
+  Application.CreateForm(TForm9, Form9);
+  Application.CreateForm(TForm10, Form10);
+  Application.CreateForm(TForm11, Form11);
+  Application.CreateForm(TForm12, Form12);
+  Application.CreateForm(TForm13, Form13);
+  Application.CreateForm(TForm14, Form14);
+  Application.CreateForm(TForm15, Form15);
+  Application.CreateForm(TForm16, Form16);
+  Application.CreateForm(TForm17, Form17);
+  Application.CreateForm(TForm18, Form18);
+  Application.CreateForm(TForm19, Form19);
+  Application.CreateForm(TForm20, Form20);
+  Application.Run;
+end.

@@ -1,0 +1,115 @@
+unit Unit3_System;
+
+interface
+
+uses
+  System.SysUtils, System.Types, System.UITypes, System.Classes, System.Variants,
+  FMX.Types, FMX.Controls, FMX.Forms, FMX.Graphics, FMX.Dialogs, FMX.Objects,
+  FMX.Controls.Presentation, FMX.StdCtrls;
+
+type
+  TForm3 = class(TForm)
+    Rec1: TRectangle;
+    Btn_Gateway: TRectangle;
+    Btn_Network: TRectangle;
+    Btn_Server: TRectangle;
+    Btn_Code: TRectangle;
+    Btn_DateTime: TRectangle;
+    label1: TLabel;
+    Label2: TLabel;
+    lb_model: TLabel;
+    lb_version: TLabel;
+    Label3: TLabel;
+    btn_home: TRectangle;
+    procedure Btn_GatewayClick(Sender: TObject);
+    procedure Btn_NetworkClick(Sender: TObject);
+    procedure Btn_ServerClick(Sender: TObject);
+    procedure btn_homeClick(Sender: TObject);
+    procedure Btn_CodeClick(Sender: TObject);
+    procedure Btn_DateTimeClick(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
+    procedure FormShow(Sender: TObject);
+
+    procedure ResizedRec(ARectangle : TRectangle);
+    procedure ResizedLabel(ALabel : TLabel);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  Form3: TForm3;
+
+implementation
+
+{$R *.fmx}
+
+uses Unit4_Gateway, Unit5_Network, Unit6_Server, Unit2_Main, Unit7_Chimney,
+  Unit8_DateTime, Unit1_Login;
+
+procedure TForm3.Btn_CodeClick(Sender: TObject);
+begin
+  Form7.Show;
+end;
+
+procedure TForm3.Btn_DateTimeClick(Sender: TObject);
+begin
+  Form8.Show;
+end;
+
+procedure TForm3.Btn_GatewayClick(Sender: TObject);
+begin
+  Form4.Show;
+end;
+
+procedure TForm3.btn_homeClick(Sender: TObject);
+begin
+  Form3.Close;
+  Form2.Show;
+end;
+
+procedure TForm3.Btn_NetworkClick(Sender: TObject);
+begin
+  Form5.Show;
+end;
+
+procedure TForm3.Btn_ServerClick(Sender: TObject);
+begin
+  Form6.Show;
+end;
+
+procedure TForm3.FormCreate(Sender: TObject);
+begin
+  ScaleWidth := Screen.DesktopWidth /  411;
+  ScaleHeight := Screen.DesktopHeight / 765;
+end;
+
+procedure TForm3.FormShow(Sender: TObject);
+begin
+  ResizedLabel(Label3);
+  ResizedRec(Btn_Code);
+  ResizedRec(Btn_DateTime);
+  ResizedRec(Btn_Gateway);
+  ResizedRec(btn_home);
+  ResizedRec(Btn_Network);
+  ResizedRec(Btn_Server);
+  ResizedRec(Rec1);
+end;
+
+procedure TForm3.ResizedLabel(ALabel : TLabel);
+begin
+  ALabel.Width := ALabel.Width * ScaleWidth;
+  ALabel.Height := ALabel.Height * ScaleHeight;
+  ALabel.Position.X := ALabel.Position.X * ScaleWidth;
+  ALabel.Position.Y := ALabel.Position.Y * ScaleHeight;
+end;
+procedure TForm3.ResizedRec(ARectangle : TRectangle);
+begin
+  ARectangle.Width := ARectangle.Width * ScaleWidth;
+  ARectangle.Height := ARectangle.Height * ScaleHeight;
+  ARectangle.Position.X := ARectangle.Position.X * ScaleWidth;
+  ARectangle.Position.Y := ARectangle.Position.Y * ScaleHeight;
+end;
+
+end.

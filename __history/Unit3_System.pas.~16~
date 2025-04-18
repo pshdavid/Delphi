@@ -1,0 +1,155 @@
+unit Unit3_System;
+
+interface
+
+uses
+  System.SysUtils, System.Types, System.UITypes, System.Classes, System.Variants,
+  FMX.Types, FMX.Controls, FMX.Forms, FMX.Graphics, FMX.Dialogs, FMX.ScrollBox, FMX.Objects,
+  FMX.Memo, FMX.Controls.Presentation, FMX.StdCtrls, Winsoft.Android.UsbSer,
+  Androidapi.JNIBridge, Winsoft.Android.Usb, FMX.ListBox, FMX.Memo.Types, FMX.Platform,
+  Androidapi.JNI, Androidapi.JNI.Java.Net, Androidapi.JNI.JavaTypes, Androidapi.Helpers,
+  Androidapi.JNI.App, Androidapi.JNI.Os, FMX.Helpers.Android, FMX.Edit;
+
+type
+  TForm3 = class(TForm)
+    Rec1: TRectangle;
+    Btn_Gateway: TRectangle;
+    Btn_Network: TRectangle;
+    Btn_Server: TRectangle;
+    Btn_Code: TRectangle;
+    Btn_DateTime: TRectangle;
+    label1: TLabel;
+    Label2: TLabel;
+    lb_model: TLabel;
+    lb_version: TLabel;
+    Label3: TLabel;
+    btn_home: TRectangle;
+    procedure Btn_GatewayClick(Sender: TObject);
+    procedure Btn_NetworkClick(Sender: TObject);
+    procedure Btn_ServerClick(Sender: TObject);
+    procedure btn_homeClick(Sender: TObject);
+    procedure Btn_CodeClick(Sender: TObject);
+    procedure Btn_DateTimeClick(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
+
+    procedure ResizedRec(ARectangle : TRectangle);
+    procedure ResizedLabel(ALabel : TLabel);
+    procedure Button1Click(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  Form3: TForm3;
+
+implementation
+
+{$R *.fmx}
+
+uses Unit1_Login, Unit2_Main, Unit4_Gateway, Unit5_Network, Handler;
+
+procedure TForm3.Btn_CodeClick(Sender: TObject);
+begin
+  //Form7.Show;
+end;
+
+procedure TForm3.Btn_DateTimeClick(Sender: TObject);
+begin
+  //Form8.Show;
+end;
+
+procedure TForm3.Btn_GatewayClick(Sender: TObject);
+begin
+  Form4.Show;
+end;
+
+procedure TForm3.btn_homeClick(Sender: TObject);
+begin
+  Form3.Close;
+  Form2.Show;
+end;
+
+procedure TForm3.Btn_NetworkClick(Sender: TObject);
+begin
+  Form5.Show;
+end;
+
+procedure TForm3.Btn_ServerClick(Sender: TObject);
+begin
+  //Form6.Show;
+end;
+
+procedure TForm3.Button1Click(Sender: TObject);
+begin
+  var cmd : String;
+  var data : TArray<Byte>;
+
+  try
+    UsbDevices := UsbSerial.UsbDevices;
+    const Device = UsbDevices[0];
+
+    if not UsbSerial.IsSupported(Device) then
+      raise Exception.Create('Unsupported device');
+
+    if not UsbSerial.HasPermission(Device) then
+      begin
+        UsbSerial.RequestPermission(Device);
+        Exit;
+      end;
+
+    UsbSerial.Connect(Device);
+    Form1.AppendText(JStringToString(Device.getManufacturerName) + ' ' + JStringToString(Device.getProductName));
+  except
+    ShowMessage('연결된 USB 가 없습니다...');
+    exit;
+  end;
+
+  UsbSerial.Open(TRUE);
+  UsbSerial.BaudRate := 115200;
+  UsbSerial.Parity := TParity.None;
+  UsbSerial.FlowControl := TFlowControl.Off;
+  UsbSerial.DataBits := TDataBits._8;
+  UsbSerial.StopBits := TStopBits._1;
+
+  CaseNum := 2;
+  cmd := '{"cmd":"r","type":"esp_gw"}';      // Gateway Read
+  data := TEncoding.UTF8.GetBytes(cmd);
+  UsbSerial.Open(TRUE);
+  UsbSerial.Write(data, 0);
+  Form1.AppendText('SEND : ' + cmd);
+end;
+
+procedure TForm3.FormCreate(Sender: TObject);
+begin
+  ScaleWidth := self.ClientWidth  /  411;
+  ScaleHeight := self.ClientHeight  / 765;
+
+  ResizedLabel(Label3);
+  ResizedRec(Btn_Code);
+  ResizedRec(Btn_DateTime);
+  ResizedRec(Btn_Gateway);
+  ResizedRec(btn_home);
+  ResizedRec(Btn_Network);
+  ResizedRec(Btn_Server);
+  ResizedRec(Rec1);
+end;
+
+procedure TForm3.ResizedLabel(ALabel : TLabel);
+begin
+  ALabel.Width := ALabel.Width * ScaleWidth;
+  ALabel.Height := ALabel.Height * ScaleHeight;
+  ALabel.Position.X := ALabel.Position.X * ScaleWidth;
+  ALabel.Position.Y := ALabel.Position.Y * ScaleHeight;
+end;
+procedure TForm3.ResizedRec(ARectangle : TRectangle);
+begin
+  ARectangle.Width := ARectangle.Width * ScaleWidth;
+  ARectangle.Height := ARectangle.Height * ScaleHeight;
+  ARectangle.Position.X := ARectangle.Position.X * ScaleWidth;
+  ARectangle.Position.Y := ARectangle.Position.Y * ScaleHeight;
+end;
+
+end.
+

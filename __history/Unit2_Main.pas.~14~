@@ -1,0 +1,129 @@
+unit Unit2_Main;
+
+interface
+
+uses
+  System.SysUtils, System.Types, System.UITypes, System.Classes, System.Variants,
+  FMX.Types, FMX.Controls, FMX.Forms, FMX.Graphics, FMX.Dialogs,
+  FMX.Controls.Presentation, FMX.StdCtrls, FMX.Objects, FMX.Memo.Types,
+  FMX.ScrollBox, FMX.Memo;
+
+type
+  TForm2 = class(TForm)
+    Rec1: TRectangle;
+    label1: TLabel;
+    lb_model: TLabel;
+    lb_version: TLabel;
+    Label2: TLabel;
+    s_bd0: TRectangle;
+    s_bd1: TRectangle;
+    Btn_SystemSetup: TRectangle;
+    s_bd2: TRectangle;
+    s_bd3: TRectangle;
+    Memo1: TMemo;
+    Label3: TLabel;
+    Label4: TLabel;
+    procedure Btn_SystemSetupClick(Sender: TObject);
+    procedure s_bd0Click(Sender: TObject);
+    procedure s_bd1Click(Sender: TObject);
+    procedure s_bd2Click(Sender: TObject);
+    procedure s_bd3Click(Sender: TObject);
+
+    procedure ResizedForm(AForm : TForm);
+    procedure ResizedRec(ARectangle : TRectangle);
+    procedure ResizedLabel(ALabel : TLabel);
+    procedure FormCreate(Sender: TObject);
+
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  Form2: TForm2;
+
+implementation
+
+{$R *.fmx}
+
+uses Unit3_System, Unit9_Board0, Unit1_Login;
+
+procedure TForm2.Btn_SystemSetupClick(Sender: TObject);
+begin
+  Form2.Hide;
+  Form3.Show;
+end;
+
+procedure TForm2.s_bd0Click(Sender: TObject);
+begin
+  SensorBoardNum := '0';
+  Form9.BoardNumLabel.Text := '0';
+  Form9.Show;
+end;
+
+procedure TForm2.s_bd1Click(Sender: TObject);
+begin
+  SensorBoardNum := '1';
+  Form9.BoardNumLabel.Text := '1';
+  Form9.Show;
+end;
+
+procedure TForm2.s_bd2Click(Sender: TObject);
+begin
+  SensorBoardNum := '2';
+  Form9.BoardNumLabel.Text := '2';
+  Form9.Show;
+end;
+
+procedure TForm2.s_bd3Click(Sender: TObject);
+begin
+  SensorBoardNum := '2';
+  Form9.BoardNumLabel.Text := '2';
+  Form9.Show;
+end;
+
+procedure TForm2.FormCreate(Sender: TObject);
+begin
+  ScaleWidth := self.ClientWidth  /  411;
+  ScaleHeight := self.ClientHeight  / 765;
+
+  ResizedLabel(label1);
+  ResizedLabel(label2);
+  ResizedLabel(label3);
+  ResizedLabel(label4);
+  ResizedLabel(lb_model);
+  ResizedLabel(lb_version);
+
+  ResizedRec(Rec1);
+  ResizedRec(Btn_SystemSetup);
+  ResizedRec(s_bd0);
+  ResizedRec(s_bd1);
+  ResizedRec(s_bd2);
+  ResizedRec(s_bd3);
+end;
+
+
+procedure TForm2.ResizedForm(AForm : TForm);
+begin
+  AForm.Width := Trunc(AForm.Width * ScaleWidth);
+  AForm.Height := Trunc(AForm.Height * ScaleHeight);
+  AForm.Left := Trunc(AForm.Left * ScaleWidth);
+  AForm.Top := Trunc(AForm.Top * ScaleHeight);
+end;
+procedure TForm2.ResizedLabel(ALabel : TLabel);
+begin
+  ALabel.Width := ALabel.Width * ScaleWidth;
+  ALabel.Height := ALabel.Height * ScaleHeight;
+  ALabel.Position.X := ALabel.Position.X * ScaleWidth;
+  ALabel.Position.Y := ALabel.Position.Y * ScaleHeight;
+end;
+procedure TForm2.ResizedRec(ARectangle : TRectangle);
+begin
+  ARectangle.Width := ARectangle.Width * ScaleWidth;
+  ARectangle.Height := ARectangle.Height * ScaleHeight;
+  ARectangle.Position.X := ARectangle.Position.X * ScaleWidth;
+  ARectangle.Position.Y := ARectangle.Position.Y * ScaleHeight;
+end;
+
+end.

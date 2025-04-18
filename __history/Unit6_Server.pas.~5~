@@ -1,0 +1,96 @@
+unit Unit6_Server;
+
+interface
+
+uses
+  System.SysUtils, System.Types, System.UITypes, System.Classes, System.Variants,
+  FMX.Types, FMX.Controls, FMX.Forms, FMX.Graphics, FMX.Dialogs, FMX.StdCtrls,
+  FMX.Controls.Presentation, FMX.Edit, FMX.Objects;
+
+type
+  TForm6 = class(TForm)
+    ServerPasswordEdit: TEdit;
+    Label2: TLabel;
+    Label3: TLabel;
+    Label4: TLabel;
+    Rec1: TRectangle;
+    Rec2: TRectangle;
+    ServerIPEdit: TEdit;
+    ServerPortEdit: TEdit;
+    btn_back: TRectangle;
+    Label7: TLabel;
+    btn_home: TRectangle;
+    Label1: TLabel;
+    Btn_SVRead: TRectangle;
+    Btn_SVSave: TRectangle;
+    procedure btn_backClick(Sender: TObject);
+    procedure btn_homeClick(Sender: TObject);
+    procedure FormShow(Sender: TObject);
+    procedure Btn_SVReadClick(Sender: TObject);
+    procedure Btn_SVSaveClick(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  Form6: TForm6;
+
+implementation
+
+{$R *.fmx}
+
+uses Unit1_Login, Unit2_Main, Unit3_System;
+
+procedure TForm6.btn_backClick(Sender: TObject);
+begin
+  Form3.Show;
+end;
+
+procedure TForm6.btn_homeClick(Sender: TObject);
+begin
+  Form2.Show;
+end;
+
+procedure TForm6.Btn_SVReadClick(Sender: TObject);
+begin
+  if not (ServerPasswordEdit.Text = '1111111111') then
+    begin
+      ShowMessage('비밀번호가 틀립니다...');
+      exit;
+    end;
+
+  var cmd : String;
+  var data : TArray<Byte>;
+
+  CaseNum := 6;
+  cmd := '{"cmd":"r","type":"esp_svr"}';      // Server Read
+  data := TEncoding.UTF8.GetBytes(cmd);
+  UsbSerial.Write(data, 1000);
+  Form1.AppendText('SEND : ' + cmd);
+end;
+
+procedure TForm6.Btn_SVSaveClick(Sender: TObject);
+begin
+  if not (ServerPasswordEdit.Text = '1111111111') then
+    begin
+      ShowMessage('비밀번호가 틀립니다...');
+      exit;
+    end;
+
+  if (ServerIPEdit.Text = '') or (ServerPortEdit.Text = '') then
+    begin
+      ShowMessage('IP, Port 내용이 없습니다.');
+      exit;
+    end;
+end;
+
+procedure TForm6.FormShow(Sender: TObject);
+begin
+  ServerPasswordEdit.Text := '1111111111';
+  ServerIPEdit.Text := '';
+  ServerPortEdit.Text := '';
+end;
+
+end.

@@ -1,0 +1,197 @@
+unit Unit7_Chimney;
+
+interface
+
+uses
+  System.SysUtils, System.Types, System.UITypes, System.Classes, System.Variants,
+  FMX.Types, FMX.Controls, FMX.Forms, FMX.Graphics, FMX.Dialogs, FMX.Objects,
+  FMX.StdCtrls, FMX.Controls.Presentation, FMX.Edit;
+
+type
+  TForm7 = class(TForm)
+    PlaceCodeEdit0: TEdit;
+    PlaceCodeEdit1: TEdit;
+    PlaceCodeEdit2: TEdit;
+    PlaceCodeEdit3: TEdit;
+    ChimneyPWEdit: TEdit;
+    Label2: TLabel;
+    Label3: TLabel;
+    Label4: TLabel;
+    Label5: TLabel;
+    Label6: TLabel;
+    Label7: TLabel;
+    Label8: TLabel;
+    Label9: TLabel;
+    Rec2: TRectangle;
+    ChimneyCodeEdit0: TEdit;
+    ChimneyCodeEdit1: TEdit;
+    ChimneyCodeEdit2: TEdit;
+    ChimneyCodeEdit3: TEdit;
+    Rec1: TRectangle;
+    btn_back: TRectangle;
+    Label1: TLabel;
+    btn_home: TRectangle;
+    Label10: TLabel;
+    Btn_SVRead: TRectangle;
+    Btn_SVSave: TRectangle;
+    procedure btn_backClick(Sender: TObject);
+    procedure btn_homeClick(Sender: TObject);
+    procedure FormShow(Sender: TObject);
+    procedure Btn_SVReadClick(Sender: TObject);
+    procedure Btn_SVSaveClick(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
+
+    procedure ResizedRec(ARectangle : TRectangle);
+    procedure ResizedEdit(AEdit : TEdit);
+    procedure ResizedLabel(ALabel : TLabel);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  Form7: TForm7;
+
+implementation
+
+{$R *.fmx}
+
+uses Unit1_Login, Unit2_Main, Unit3_System;
+
+procedure TForm7.btn_backClick(Sender: TObject);
+begin
+  Form7.Close;
+  Form3.Show;
+end;
+
+procedure TForm7.btn_homeClick(Sender: TObject);
+begin
+  Form7.Close;
+  Form2.Show;
+end;
+
+procedure TForm7.Btn_SVReadClick(Sender: TObject);
+begin
+  if not (ChimneyPWEdit.Text = '1111111111') then
+    begin
+      ShowMessage('비밀번호가 틀립니다. 다시 입력하세요...');
+      exit;
+    end;
+
+  var cmd : String;
+  var data : TArray<Byte>;
+
+  CaseNum := 8;
+  cmd := '{"cmd":"r","type":"esp_comp"}';      // Chimney Read
+  data := TEncoding.UTF8.GetBytes(cmd);
+  UsbSerial.Write(data, 1000);
+  Form1.AppendText('SEND : ' + cmd);
+end;
+
+procedure TForm7.Btn_SVSaveClick(Sender: TObject);
+var
+  sTR2, sTR3, sTR4, sTR5, sTR6, sTR7, sTR8, sTR9, sTR10 : String;
+begin
+  if not (ChimneyPWEdit.Text = '1111111111') then
+    begin
+      ShowMessage('비밀번호가 틀립니다. 다시 입력하세요...');
+      exit;
+    end;
+
+  if (PlaceCodeEdit0.Text = '') or (ChimneyCodeEdit0.Text = '') then
+    begin
+      ShowMessage('IP, Port를 입력하세요.');
+      exit;
+    end;
+
+  var cmd : String;
+  var data : TArray<Byte>;
+  sTR2 := ChimneyPWEdit.Text;
+  sTR3 := PlaceCodeEdit0.Text;
+  sTR4 := PlaceCodeEdit1.Text;
+  sTR5 := PlaceCodeEdit2.Text;
+  sTR6 := PlaceCodeEdit3.Text;
+
+  sTR7 := ChimneyCodeEdit0.Text;
+  sTR8 := ChimneyCodeEdit1.Text;
+  sTR9 := ChimneyCodeEdit2.Text;
+  sTR10 := ChimneyCodeEdit3.Text;
+
+  CaseNum := 9;
+  cmd := '{"cmd":"w","cc0":"'+sTR3+'","ss0":"'+sTR7+'","cc1":"'+sTR4+'","ss1":"'+sTR8+'","cc2":"'+sTR5+'","ss2":"'+sTR9+'","cc3":"'+sTR6+'","ss3":"'+sTR10+'","pw":"'+sTR2+'"}';
+  data := TEncoding.UTF8.GetBytes(cmd);
+  UsbSerial.Write(data, 1000);
+  Form1.AppendText('SEND : ' + cmd);
+end;
+
+procedure TForm7.FormCreate(Sender: TObject);
+begin
+  ScaleWidth := self.ClientWidth  /  411;
+  ScaleHeight := self.ClientHeight  / 765;
+
+  ResizedRec(Rec1);
+  ResizedRec(Rec2);
+  ResizedRec(btn_back);
+  ResizedRec(btn_home);
+  ResizedRec(Btn_SVRead);
+  ResizedRec(Btn_SVSave);
+
+  ResizedEdit(ChimneyCodeEdit0);
+  ResizedEdit(ChimneyCodeEdit1);
+  ResizedEdit(ChimneyCodeEdit2);
+  ResizedEdit(ChimneyCodeEdit3);
+  ResizedEdit(ChimneyPWEdit);
+  ResizedEdit(PlaceCodeEdit0);
+  ResizedEdit(ChimneyCodeEdit1);
+  ResizedEdit(ChimneyCodeEdit2);
+  ResizedEdit(ChimneyCodeEdit3);
+
+  ResizedLabel(Label1);
+  ResizedLabel(Label2);
+  ResizedLabel(Label3);
+  ResizedLabel(Label4);
+  ResizedLabel(Label5);
+  ResizedLabel(Label6);
+  ResizedLabel(Label7);
+  ResizedLabel(Label8);
+  ResizedLabel(Label9);
+  ResizedLabel(Label10);
+end;
+
+procedure TForm7.FormShow(Sender: TObject);
+begin
+  ChimneyPWEdit.Text := '1111111111';
+  PlaceCodeEdit0.Text := '';
+  PlaceCodeEdit1.Text := '';
+  PlaceCodeEdit2.Text := '';
+  PlaceCodeEdit3.Text := '';
+  ChimneyCodeEdit0.Text := '';
+  ChimneyCodeEdit1.Text := '';
+  ChimneyCodeEdit2.Text := '';
+  ChimneyCodeEdit3.Text := '';
+end;
+
+procedure TForm7.ResizedLabel(ALabel : TLabel);
+begin
+  ALabel.Width := ALabel.Width * ScaleWidth;
+  ALabel.Height := ALabel.Height * ScaleHeight;
+  ALabel.Position.X := ALabel.Position.X * ScaleWidth;
+  ALabel.Position.Y := ALabel.Position.Y * ScaleHeight;
+end;
+procedure TForm7.ResizedEdit(AEdit : TEdit);
+begin
+  AEdit.Width := AEdit.Width * ScaleWidth;
+  AEdit.Height := AEdit.Height * ScaleHeight;
+  AEdit.Position.X := AEdit.Position.X * ScaleWidth;
+  AEdit.Position.Y := AEdit.Position.Y * ScaleHeight;
+end;
+procedure TForm7.ResizedRec(ARectangle : TRectangle);
+begin
+  ARectangle.Width := ARectangle.Width * ScaleWidth;
+  ARectangle.Height := ARectangle.Height * ScaleHeight;
+  ARectangle.Position.X := ARectangle.Position.X * ScaleWidth;
+  ARectangle.Position.Y := ARectangle.Position.Y * ScaleHeight;
+end;
+
+end.
